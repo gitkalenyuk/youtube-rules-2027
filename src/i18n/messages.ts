@@ -1,0 +1,1742 @@
+import type { LocaleCode } from "./locales";
+
+export interface StatItem {
+  value: number;
+  prefix: string;
+  suffix: string;
+  label: string;
+}
+export interface TitleText {
+  title: string;
+  text: string;
+}
+export interface CompareRow {
+  label: string;
+  before: string;
+  after: number;
+  afterSuffix: string;
+}
+export interface DateTitleText {
+  date: string;
+  title: string;
+  text: string;
+}
+export interface Qa {
+  q: string;
+  a: string;
+}
+
+export interface Messages {
+  nav: {
+    changes: string;
+    compare: string;
+    shorts: string;
+    premium: string;
+    timeline: string;
+    faq: string;
+    cta: string;
+    menu: string;
+  };
+  hero: {
+    badge: string;
+    title1: string;
+    titleHighlight: string;
+    title2: string;
+    subtitle: string;
+    cta1: string;
+    cta2: string;
+    countdownTitle: string;
+    days: string;
+    hours: string;
+    minutes: string;
+    seconds: string;
+  };
+  ticker: string[];
+  stats: StatItem[];
+  changes: {
+    kicker: string;
+    title1: string;
+    titleHighlight: string;
+    lead: string;
+    items: TitleText[];
+  };
+  compare: {
+    kicker: string;
+    title1: string;
+    titleHighlight: string;
+    lead: string;
+    colBefore: string;
+    colAfter: string;
+    footnote: string;
+    rows: CompareRow[];
+  };
+  shorts: {
+    kicker: string;
+    title1: string;
+    titleHighlight: string;
+    paragraph: string;
+    bullets: string[];
+    cardLabel: string;
+    threshold: string;
+  };
+  premium: {
+    kicker: string;
+    title1: string;
+    titleHighlight: string;
+    lead: string;
+    litePool: string;
+    liteText: string;
+    premiumPool: string;
+    premiumText: string;
+    targetedTitle: string;
+    targetedText: string;
+    donutCenter: string;
+    donutSub: string;
+    legendLong: string;
+    legendShorts: string;
+  };
+  bonuses: {
+    kicker: string;
+    title1: string;
+    titleHighlight: string;
+    lead: string;
+    items: TitleText[];
+  };
+  timeline: {
+    kicker: string;
+    title1: string;
+    titleHighlight: string;
+    items: DateTitleText[];
+  };
+  affected: {
+    kicker: string;
+    title1: string;
+    titleHighlight: string;
+    newTitle: string;
+    newText: string;
+    existingTitle: string;
+    existingText: string;
+    activityTitle: string;
+    activityText: string;
+  };
+  faq: {
+    kicker: string;
+    title1: string;
+    titleHighlight: string;
+    items: Qa[];
+  };
+  sources: {
+    kicker: string;
+    title1: string;
+    titleHighlight: string;
+    lead: string;
+    official: string;
+    media: string;
+  };
+  footer: {
+    disclaimer: string;
+    copyright: string;
+  };
+}
+
+export const messages: Record<LocaleCode, Messages> = {
+  uk: {
+    nav: {
+      changes: "Що змінюється",
+      compare: "Порівняння",
+      shorts: "Shorts",
+      premium: "Premium",
+      timeline: "Дати",
+      faq: "FAQ",
+      cta: "Розібратися",
+      menu: "Меню",
+    },
+    hero: {
+      badge: "Зміни набувають чинності 1 лютого 2027",
+      title1: "Нові правила",
+      titleHighlight: "монетизації YouTube",
+      title2: "2027",
+      subtitle:
+        "Перша суттєва зміна YouTube Partner Program з 2018 року: нові пороги входу, нові правила для Shorts, розширення Premium Lite та бонусні програми. Розбираємо все по поличках — з посиланнями на першоджерела.",
+      cta1: "Розібратися",
+      cta2: "Порівняти 2026 → 2027",
+      countdownTitle: "До старту нових правил",
+      days: "днів",
+      hours: "годин",
+      minutes: "хвилин",
+      seconds: "секунд",
+    },
+    ticker: [
+      "8 000 годин — новий поріг",
+      "20 млн переглядів Shorts",
+      "10 млн — Shorts Creator Pool",
+      "Premium Lite 60%",
+      "45% таргет-реклама",
+      "З 1 лютого 2027",
+    ],
+    stats: [
+      { value: 8000, prefix: "", suffix: " годин", label: "новий поріг входу (було 4 000)" },
+      { value: 20, prefix: "", suffix: " млн", label: "переглядів Shorts — новий поріг (було 10 млн)" },
+      { value: 10, prefix: "", suffix: " млн", label: "переглядів Shorts/90 дн — мінімум для Creator Pool" },
+      { value: 100, prefix: "$", suffix: "+ млрд", label: "виплачено авторам за останні 4 роки" },
+    ],
+    changes: {
+      kicker: "Що змінюється",
+      title1: "Головні зміни",
+      titleHighlight: "одним поглядом",
+      lead: "Шість ключових змін, які набувають чинності 1 лютого 2027 року.",
+      items: [
+        { title: "Поріг входу зростає вдвічі", text: "Нові канали: 8 000 годин або 20 млн переглядів Shorts." },
+        { title: "Shorts: мінімум 10 млн", text: "Щоб заробляти з Shorts Creator Pool щомісяця." },
+        { title: "Premium Lite всюди", text: "Розширення на всі країни з Premium — більше доходу." },
+        { title: "45% за таргет-рекламу", text: "Якщо рекламодавець обирає ≤5 каналів — пряма частка." },
+        { title: "Нові бонуси", text: "Бонуси за Shopping, brand deals і культурні тренди." },
+        { title: "Чинні автори захищені", text: "Ті, хто вже в YPP, не зачіпаються новими порогами." },
+      ],
+    },
+    compare: {
+      kicker: "Порівняння",
+      title1: "Пороги входу:",
+      titleHighlight: "2026 → 2027",
+      lead: "Нові пороги стосуються лише нових авторів, які подають заявку в YPP для реклами та Premium.",
+      colBefore: "До 2027",
+      colAfter: "З 1 лютого 2027",
+      footnote: "1 000 підписників залишаються обов'язковою умовою в обох випадках.",
+      rows: [
+        { label: "Години перегляду (за 365 днів)", before: "4 000", after: 8000, afterSuffix: "" },
+        { label: "Перегляди Shorts (за 90 днів)", before: "10 млн", after: 20, afterSuffix: " млн" },
+        { label: "Мінімум для Shorts Creator Pool", before: "—", after: 10, afterSuffix: " млн" },
+      ],
+    },
+    shorts: {
+      kicker: "Shorts",
+      title1: "Щоб заробляти на Shorts —",
+      titleHighlight: "10 млн переглядів",
+      paragraph:
+        "З 1 лютого 2027 року, щоб щомісяця отримувати дохід із Shorts Creator Pool, канал має підтримувати 10 млн кваліфікованих переглядів Shorts за останні 90 днів.",
+      bullets: [
+        "Нижче порогу ви не вилітаєте з YPP.",
+        "Дохід від long-form відео не страждає.",
+        "Після повернення вище 10 млн дохід Shorts відновлюється автоматично.",
+      ],
+      cardLabel: "переглядів Shorts за 90 днів — мінімум для Creator Pool",
+      threshold: "10 млн — поріг",
+    },
+    premium: {
+      kicker: "Premium Lite",
+      title1: "Більше передплатників —",
+      titleHighlight: "більше доходу",
+      lead: "YouTube розширює Premium Lite на всі країни, де є Premium, і оновлює розподіл доходу між авторами.",
+      litePool: "Пул Premium Lite",
+      liteText: "нетто-доходу підписки Premium Lite ділиться між авторами.",
+      premiumPool: "Пул Premium",
+      premiumText: "нетто-доходу Premium ділиться між авторами.",
+      targetedTitle: "Таргетована Shorts-реклама",
+      targetedText:
+        "Якщо рекламодавець таргетує рекламу на 5 або менше каналів, автор отримує 45% доходу напряму — додатково до звичайного Creator Pool.",
+      donutCenter: "55 / 45",
+      donutSub: "long / shorts",
+      legendLong: "55% long-form",
+      legendShorts: "45% Shorts",
+    },
+    bonuses: {
+      kicker: "Нові бонуси",
+      title1: "Більше способів",
+      titleHighlight: "заробляти",
+      lead: "Окрім реклами, YouTube вводить нові бонусні програми, які винагороджують зростання, залученість і різноманітні бізнес-моделі.",
+      items: [
+        { title: "Бонуси YouTube Shopping", text: "Додаткові виплати за продажі через Shopping." },
+        { title: "Продакшн-кредити за brand deals", text: "Підтримка для брендових угод." },
+        { title: "Бусти за культурні тренди", text: "Заробіток за запуск і розвиток трендів." },
+      ],
+    },
+    timeline: {
+      kicker: "Ключові дати",
+      title1: "Календар",
+      titleHighlight: "змін",
+      items: [
+        { date: "10 серпня 2026", title: "Анонс", text: "YouTube оголосив перші суттєві зміни YPP з 2018 року." },
+        { date: "31 січня 2027", title: "Дедлайн", text: "Прийміть нові умови в YouTube Studio, щоб не втратити заробіток." },
+        { date: "1 лютого 2027", title: "Старт", text: "Нові правила набувають чинності для всіх авторів." },
+      ],
+    },
+    affected: {
+      kicker: "Хто зачеплений",
+      title1: "Кого стосуються",
+      titleHighlight: "нові правила",
+      newTitle: "Нові автори",
+      newText: "Для входу в YPP (реклама + Premium) тепер потрібно: 1 000 підписників + 8 000 годин перегляду або 20 млн переглядів Shorts.",
+      existingTitle: "Чинні учасники YPP",
+      existingText: "Не зачіпаються новими порогами. Але до 31 січня 2027 потрібно прийняти оновлені умови в YouTube Studio.",
+      activityTitle: "Нові вимоги активності",
+      activityText:
+        "Канал вважається активним, якщо за 365 днів набрано 1 000 годин перегляду, або 1 млн переглядів Shorts за 90 днів, або опубліковано 2 long-form відео / 5 Shorts за 90 днів.",
+    },
+    faq: {
+      kicker: "FAQ",
+      title1: "Поширені",
+      titleHighlight: "запитання",
+      items: [
+        { q: "Кого зачіпають нові пороги входу в YPP?", a: "Тільки нових авторів, які подають заявку після 1 лютого 2027 року. Чинні учасники YPP залишаються в програмі незалежно від нових цифр." },
+        { q: "Скільки тепер потрібно для входу в YPP?", a: "1 000 підписників + 8 000 годин перегляду за 365 днів АБО 20 млн переглядів Shorts за 90 днів." },
+        { q: "Що змінюється для Shorts?", a: "Щоб отримувати дохід із Shorts Creator Pool щомісяця, потрібно підтримувати 10 млн переглядів Shorts за 90 днів. Нижче порогу ви залишаєтесь у YPP і далі заробляєте на long-form." },
+        { q: "Що з Fan Funding і Shopping?", a: "Пороги не змінюються: 500 підписників + 3 000 годин перегляду або 3 млн переглядів Shorts за 90 днів." },
+        { q: "Що таке Premium Lite і як він впливає на дохід?", a: "Premium Lite розширюють на всі країни з Premium. Автори ділять пул: 60% нетто-доходу Premium Lite і 30% Premium; розподіл — 55% long-form і 45% Shorts." },
+        { q: "Що буде, якщо не прийняти нові умови до 31 січня 2027?", a: "З 1 лютого 2027 ви перестанете заробляти на відповідних функціях монетизації, доки не приймете умови в YouTube Studio. Статус у YPP при цьому не втрачається." },
+        { q: "Це точно про монетизацію, а не про правила спільноти?", a: "Так. Анонсовані зміни стосуються YouTube Partner Program (монетизації). Правила спільноти та контенту цим анонсом не переглядалися." },
+      ],
+    },
+    sources: {
+      kicker: "Джерела",
+      title1: "Звідки",
+      titleHighlight: "дані",
+      lead: "Кожну цифру звірено з офіційними джерелами YouTube та провідними виданнями.",
+      official: "Офіційно",
+      media: "Медіа",
+    },
+    footer: {
+      disclaimer: "Неофіційний інформаційний сайт. Офіційні та актуальні умови дивіться в YouTube Studio.",
+      copyright: "© 2026 · Складено за даними офіційних джерел YouTube (станом на серпень 2026)",
+    },
+  },
+
+  en: {
+    nav: {
+      changes: "What changes",
+      compare: "Compare",
+      shorts: "Shorts",
+      premium: "Premium",
+      timeline: "Dates",
+      faq: "FAQ",
+      cta: "Learn more",
+      menu: "Menu",
+    },
+    hero: {
+      badge: "Changes take effect February 1, 2027",
+      title1: "New",
+      titleHighlight: "YouTube monetization rules",
+      title2: "2027",
+      subtitle:
+        "The first major change to the YouTube Partner Program since 2018: new entry thresholds, new Shorts rules, expanded Premium Lite and bonus programs. We break it all down — with links to primary sources.",
+      cta1: "Learn more",
+      cta2: "Compare 2026 → 2027",
+      countdownTitle: "Until the new rules begin",
+      days: "days",
+      hours: "hours",
+      minutes: "minutes",
+      seconds: "seconds",
+    },
+    ticker: [
+      "8,000 hours — new threshold",
+      "20M Shorts views",
+      "10M — Shorts Creator Pool",
+      "Premium Lite 60%",
+      "45% targeted ads",
+      "From Feb 1, 2027",
+    ],
+    stats: [
+      { value: 8000, prefix: "", suffix: " hours", label: "new entry threshold (was 4,000)" },
+      { value: 20, prefix: "", suffix: "M", label: "Shorts views — new threshold (was 10M)" },
+      { value: 10, prefix: "", suffix: "M", label: "Shorts views/90 days — Creator Pool minimum" },
+      { value: 100, prefix: "$", suffix: "+B", label: "paid to creators over the last 4 years" },
+    ],
+    changes: {
+      kicker: "What changes",
+      title1: "Key changes",
+      titleHighlight: "at a glance",
+      lead: "Six key changes that take effect on February 1, 2027.",
+      items: [
+        { title: "Entry threshold doubles", text: "New channels: 8,000 hours or 20M Shorts views." },
+        { title: "Shorts: 10M minimum", text: "To earn from the Shorts Creator Pool each month." },
+        { title: "Premium Lite everywhere", text: "Expanding to all Premium countries — more earnings." },
+        { title: "45% for targeted ads", text: "When an advertiser picks ≤5 channels — direct share." },
+        { title: "New bonuses", text: "Bonuses for Shopping, brand deals and cultural trends." },
+        { title: "Existing creators protected", text: "Those already in YPP are unaffected by new thresholds." },
+      ],
+    },
+    compare: {
+      kicker: "Comparison",
+      title1: "Entry thresholds:",
+      titleHighlight: "2026 → 2027",
+      lead: "New thresholds apply only to new creators applying to YPP for ads and Premium.",
+      colBefore: "Before 2027",
+      colAfter: "From Feb 1, 2027",
+      footnote: "1,000 subscribers remain a requirement in both cases.",
+      rows: [
+        { label: "Watch hours (last 365 days)", before: "4,000", after: 8000, afterSuffix: "" },
+        { label: "Shorts views (last 90 days)", before: "10M", after: 20, afterSuffix: "M" },
+        { label: "Minimum for Shorts Creator Pool", before: "—", after: 10, afterSuffix: "M" },
+      ],
+    },
+    shorts: {
+      kicker: "Shorts",
+      title1: "To earn from Shorts —",
+      titleHighlight: "10M views",
+      paragraph:
+        "From February 1, 2027, to receive monthly revenue from the Shorts Creator Pool, a channel must maintain 10 million qualified Shorts views over the last 90 days.",
+      bullets: [
+        "Below the threshold you are not removed from YPP.",
+        "Long-form revenue is not affected.",
+        "Once you cross 10M again, Shorts revenue resumes automatically.",
+      ],
+      cardLabel: "Shorts views in 90 days — Creator Pool minimum",
+      threshold: "10M — threshold",
+    },
+    premium: {
+      kicker: "Premium Lite",
+      title1: "More subscribers —",
+      titleHighlight: "more earnings",
+      lead: "YouTube is expanding Premium Lite to all Premium countries and updating how revenue is shared with creators.",
+      litePool: "Premium Lite pool",
+      liteText: "of Premium Lite net subscription revenue is shared with creators.",
+      premiumPool: "Premium pool",
+      premiumText: "of Premium net subscription revenue is shared with creators.",
+      targetedTitle: "Targeted Shorts ads",
+      targetedText:
+        "If an advertiser targets an ad to 5 or fewer channels, the creator earns 45% of that revenue directly — on top of the standard Creator Pool.",
+      donutCenter: "55 / 45",
+      donutSub: "long / shorts",
+      legendLong: "55% long-form",
+      legendShorts: "45% Shorts",
+    },
+    bonuses: {
+      kicker: "New bonuses",
+      title1: "More ways",
+      titleHighlight: "to earn",
+      lead: "Beyond ads, YouTube is introducing new bonus programs that reward growth, engagement and diverse business models.",
+      items: [
+        { title: "YouTube Shopping bonuses", text: "Extra payouts for sales through Shopping." },
+        { title: "Production credits for brand deals", text: "Support for brand partnerships." },
+        { title: "Cultural trend boosts", text: "Earnings for starting and growing trends." },
+      ],
+    },
+    timeline: {
+      kicker: "Key dates",
+      title1: "Timeline of",
+      titleHighlight: "changes",
+      items: [
+        { date: "August 10, 2026", title: "Announcement", text: "YouTube announced the first major YPP changes since 2018." },
+        { date: "January 31, 2027", title: "Deadline", text: "Accept the new terms in YouTube Studio to keep earning." },
+        { date: "February 1, 2027", title: "Launch", text: "The new rules take effect for all creators." },
+      ],
+    },
+    affected: {
+      kicker: "Who is affected",
+      title1: "Who the",
+      titleHighlight: "new rules affect",
+      newTitle: "New creators",
+      newText: "To join YPP (ads + Premium) you now need: 1,000 subscribers + 8,000 watch hours or 20M Shorts views.",
+      existingTitle: "Existing YPP members",
+      existingText: "Not affected by the new thresholds. But you must accept the updated terms in YouTube Studio by January 31, 2027.",
+      activityTitle: "New activity requirements",
+      activityText:
+        "A channel is considered active if it has 1,000 watch hours in 365 days, or 1M Shorts views in 90 days, or uploads 2 long-form videos / 5 Shorts every 90 days.",
+    },
+    faq: {
+      kicker: "FAQ",
+      title1: "Frequently asked",
+      titleHighlight: "questions",
+      items: [
+        { q: "Who do the new YPP entry thresholds affect?", a: "Only new creators who apply after February 1, 2027. Existing YPP members stay in the program regardless of the new numbers." },
+        { q: "How much do I need to join YPP now?", a: "1,000 subscribers + 8,000 watch hours in 365 days OR 20M Shorts views in 90 days." },
+        { q: "What changes for Shorts?", a: "To earn monthly from the Shorts Creator Pool, you need to maintain 10M Shorts views in 90 days. Below that you stay in YPP and keep earning on long-form." },
+        { q: "What about Fan Funding and Shopping?", a: "Thresholds are unchanged: 500 subscribers + 3,000 watch hours or 3M Shorts views in 90 days." },
+        { q: "What is Premium Lite and how does it affect earnings?", a: "Premium Lite is expanding to all Premium countries. Creators share a pool: 60% of Premium Lite net revenue and 30% of Premium; split 55% long-form and 45% Shorts." },
+        { q: "What if I don't accept the new terms by January 31, 2027?", a: "From February 1, 2027 you stop earning on the affected monetization features until you accept the terms in YouTube Studio. Your YPP status is not lost." },
+        { q: "Is this about monetization or community rules?", a: "Monetization. The announced changes concern the YouTube Partner Program. Community and content rules were not changed by this announcement." },
+      ],
+    },
+    sources: {
+      kicker: "Sources",
+      title1: "Where the",
+      titleHighlight: "data comes from",
+      lead: "Every figure has been checked against official YouTube sources and leading publications.",
+      official: "Official",
+      media: "Media",
+    },
+    footer: {
+      disclaimer: "Unofficial informational site. See YouTube Studio for official and current terms.",
+      copyright: "© 2026 · Based on official YouTube sources (as of August 2026)",
+    },
+  },
+
+  ru: {
+    nav: {
+      changes: "Что меняется",
+      compare: "Сравнение",
+      shorts: "Shorts",
+      premium: "Premium",
+      timeline: "Даты",
+      faq: "FAQ",
+      cta: "Разобраться",
+      menu: "Меню",
+    },
+    hero: {
+      badge: "Изменения вступают в силу 1 февраля 2027",
+      title1: "Новые правила",
+      titleHighlight: "монетизации YouTube",
+      title2: "2027",
+      subtitle:
+        "Первое значительное изменение YouTube Partner Program с 2018 года: новые пороги входа, новые правила для Shorts, расширение Premium Lite и бонусные программы. Разбираем всё по полочкам — со ссылками на первоисточники.",
+      cta1: "Разобраться",
+      cta2: "Сравнить 2026 → 2027",
+      countdownTitle: "До старта новых правил",
+      days: "дней",
+      hours: "часов",
+      minutes: "минут",
+      seconds: "секунд",
+    },
+    ticker: [
+      "8 000 часов — новый порог",
+      "20 млн просмотров Shorts",
+      "10 млн — Shorts Creator Pool",
+      "Premium Lite 60%",
+      "45% таргет-реклама",
+      "С 1 февраля 2027",
+    ],
+    stats: [
+      { value: 8000, prefix: "", suffix: " часов", label: "новый порог входа (было 4 000)" },
+      { value: 20, prefix: "", suffix: " млн", label: "просмотров Shorts — новый порог (было 10 млн)" },
+      { value: 10, prefix: "", suffix: " млн", label: "просмотров Shorts/90 дн — минимум для Creator Pool" },
+      { value: 100, prefix: "$", suffix: "+ млрд", label: "выплачено авторам за последние 4 года" },
+    ],
+    changes: {
+      kicker: "Что меняется",
+      title1: "Главные изменения",
+      titleHighlight: "одним взглядом",
+      lead: "Шесть ключевых изменений, которые вступают в силу 1 февраля 2027 года.",
+      items: [
+        { title: "Порог входа растёт вдвое", text: "Новые каналы: 8 000 часов или 20 млн просмотров Shorts." },
+        { title: "Shorts: минимум 10 млн", text: "Чтобы зарабатывать из Shorts Creator Pool ежемесячно." },
+        { title: "Premium Lite везде", text: "Расширение на все страны с Premium — больше дохода." },
+        { title: "45% за таргет-рекламу", text: "Если рекламодатель выбирает ≤5 каналов — прямая доля." },
+        { title: "Новые бонусы", text: "Бонусы за Shopping, brand deals и культурные тренды." },
+        { title: "Действующие авторы защищены", text: "Те, кто уже в YPP, не затрагиваются новыми порогами." },
+      ],
+    },
+    compare: {
+      kicker: "Сравнение",
+      title1: "Пороги входа:",
+      titleHighlight: "2026 → 2027",
+      lead: "Новые пороги касаются только новых авторов, подающих заявку в YPP для рекламы и Premium.",
+      colBefore: "До 2027",
+      colAfter: "С 1 февраля 2027",
+      footnote: "1 000 подписчиков остаются обязательным условием в обоих случаях.",
+      rows: [
+        { label: "Часы просмотра (за 365 дней)", before: "4 000", after: 8000, afterSuffix: "" },
+        { label: "Просмотры Shorts (за 90 дней)", before: "10 млн", after: 20, afterSuffix: " млн" },
+        { label: "Минимум для Shorts Creator Pool", before: "—", after: 10, afterSuffix: " млн" },
+      ],
+    },
+    shorts: {
+      kicker: "Shorts",
+      title1: "Чтобы зарабатывать на Shorts —",
+      titleHighlight: "10 млн просмотров",
+      paragraph:
+        "С 1 февраля 2027 года, чтобы ежемесячно получать доход из Shorts Creator Pool, канал должен поддерживать 10 млн квалифицированных просмотров Shorts за последние 90 дней.",
+      bullets: [
+        "Ниже порога вы не вылетаете из YPP.",
+        "Доход от long-form не страдает.",
+        "После возврата выше 10 млн доход Shorts возобновляется автоматически.",
+      ],
+      cardLabel: "просмотров Shorts за 90 дней — минимум для Creator Pool",
+      threshold: "10 млн — порог",
+    },
+    premium: {
+      kicker: "Premium Lite",
+      title1: "Больше подписчиков —",
+      titleHighlight: "больше дохода",
+      lead: "YouTube расширяет Premium Lite на все страны с Premium и обновляет распределение дохода между авторами.",
+      litePool: "Пул Premium Lite",
+      liteText: "нетто-дохода подписки Premium Lite делится между авторами.",
+      premiumPool: "Пул Premium",
+      premiumText: "нетто-дохода Premium делится между авторами.",
+      targetedTitle: "Таргетированная Shorts-реклама",
+      targetedText:
+        "Если рекламодатель таргетирует рекламу на 5 или меньше каналов, автор получает 45% дохода напрямую — дополнительно к обычному Creator Pool.",
+      donutCenter: "55 / 45",
+      donutSub: "long / shorts",
+      legendLong: "55% long-form",
+      legendShorts: "45% Shorts",
+    },
+    bonuses: {
+      kicker: "Новые бонусы",
+      title1: "Больше способов",
+      titleHighlight: "зарабатывать",
+      lead: "Помимо рекламы, YouTube вводит новые бонусные программы, вознаграждающие рост, вовлечённость и разные бизнес-модели.",
+      items: [
+        { title: "Бонусы YouTube Shopping", text: "Дополнительные выплаты за продажи через Shopping." },
+        { title: "Продакшн-кредиты за brand deals", text: "Поддержка брендовых сделок." },
+        { title: "Бусты за культурные тренды", text: "Заработок за запуск и развитие трендов." },
+      ],
+    },
+    timeline: {
+      kicker: "Ключевые даты",
+      title1: "Календарь",
+      titleHighlight: "изменений",
+      items: [
+        { date: "10 августа 2026", title: "Анонс", text: "YouTube объявил первые значительные изменения YPP с 2018 года." },
+        { date: "31 января 2027", title: "Дедлайн", text: "Примите новые условия в YouTube Studio, чтобы не потерять заработок." },
+        { date: "1 февраля 2027", title: "Старт", text: "Новые правила вступают в силу для всех авторов." },
+      ],
+    },
+    affected: {
+      kicker: "Кого коснётся",
+      title1: "Кого касаются",
+      titleHighlight: "новые правила",
+      newTitle: "Новые авторы",
+      newText: "Для входа в YPP (реклама + Premium) теперь нужно: 1 000 подписчиков + 8 000 часов просмотра или 20 млн просмотров Shorts.",
+      existingTitle: "Действующие участники YPP",
+      existingText: "Не затрагиваются новыми порогами. Но до 31 января 2027 нужно принять обновлённые условия в YouTube Studio.",
+      activityTitle: "Новые требования активности",
+      activityText:
+        "Канал считается активным, если за 365 дней набрано 1 000 часов просмотра, или 1 млн просмотров Shorts за 90 дней, или опубликовано 2 long-form видео / 5 Shorts за 90 дней.",
+    },
+    faq: {
+      kicker: "FAQ",
+      title1: "Частые",
+      titleHighlight: "вопросы",
+      items: [
+        { q: "Кого касаются новые пороги входа в YPP?", a: "Только новых авторов, которые подают заявку после 1 февраля 2027 года. Действующие участники YPP остаются в программе независимо от новых цифр." },
+        { q: "Сколько теперь нужно для входа в YPP?", a: "1 000 подписчиков + 8 000 часов просмотра за 365 дней ИЛИ 20 млн просмотров Shorts за 90 дней." },
+        { q: "Что меняется для Shorts?", a: "Чтобы ежемесячно получать доход из Shorts Creator Pool, нужно поддерживать 10 млн просмотров Shorts за 90 дней. Ниже порога вы остаётесь в YPP и продолжаете зарабатывать на long-form." },
+        { q: "Что с Fan Funding и Shopping?", a: "Пороги не меняются: 500 подписчиков + 3 000 часов просмотра или 3 млн просмотров Shorts за 90 дней." },
+        { q: "Что такое Premium Lite и как он влияет на доход?", a: "Premium Lite расширяют на все страны с Premium. Авторы делят пул: 60% нетто-дохода Premium Lite и 30% Premium; распределение — 55% long-form и 45% Shorts." },
+        { q: "Что будет, если не принять новые условия до 31 января 2027?", a: "С 1 февраля 2027 вы перестанете зарабатывать на соответствующих функциях монетизации, пока не примете условия в YouTube Studio. Статус в YPP не теряется." },
+        { q: "Это про монетизацию или про правила сообщества?", a: "Про монетизацию. Анонсированные изменения касаются YouTube Partner Program. Правила сообщества и контента этим анонсом не менялись." },
+      ],
+    },
+    sources: {
+      kicker: "Источники",
+      title1: "Откуда",
+      titleHighlight: "данные",
+      lead: "Каждая цифра сверена с официальными источниками YouTube и ведущими изданиями.",
+      official: "Официально",
+      media: "Медиа",
+    },
+    footer: {
+      disclaimer: "Неофициальный информационный сайт. Официальные и актуальные условия смотрите в YouTube Studio.",
+      copyright: "© 2026 · Составлено по данным официальных источников YouTube (по состоянию на август 2026)",
+    },
+  },
+
+  es: {
+    nav: {
+      changes: "Qué cambia",
+      compare: "Comparación",
+      shorts: "Shorts",
+      premium: "Premium",
+      timeline: "Fechas",
+      faq: "FAQ",
+      cta: "Saber más",
+      menu: "Menú",
+    },
+    hero: {
+      badge: "Los cambios entran en vigor el 1 de febrero de 2027",
+      title1: "Nuevas",
+      titleHighlight: "reglas de monetización de YouTube",
+      title2: "2027",
+      subtitle:
+        "El primer gran cambio del Programa de Partners de YouTube desde 2018: nuevos umbrales de entrada, nuevas reglas para Shorts, Premium Lite ampliado y programas de bonificación. Lo explicamos todo — con enlaces a fuentes primarias.",
+      cta1: "Saber más",
+      cta2: "Comparar 2026 → 2027",
+      countdownTitle: "Hasta el inicio de las nuevas reglas",
+      days: "días",
+      hours: "horas",
+      minutes: "minutos",
+      seconds: "segundos",
+    },
+    ticker: [
+      "8.000 horas — nuevo umbral",
+      "20 M de visualizaciones de Shorts",
+      "10 M — Shorts Creator Pool",
+      "Premium Lite 60%",
+      "45% anuncios dirigidos",
+      "Desde el 1 de febrero de 2027",
+    ],
+    stats: [
+      { value: 8000, prefix: "", suffix: " horas", label: "nuevo umbral de entrada (antes 4.000)" },
+      { value: 20, prefix: "", suffix: " M", label: "visualizaciones de Shorts — nuevo umbral (antes 10 M)" },
+      { value: 10, prefix: "", suffix: " M", label: "visualizaciones de Shorts/90 días — mínimo del Creator Pool" },
+      { value: 100, prefix: "$", suffix: "+ mil M", label: "pagado a creadores en los últimos 4 años" },
+    ],
+    changes: {
+      kicker: "Qué cambia",
+      title1: "Cambios clave",
+      titleHighlight: "de un vistazo",
+      lead: "Seis cambios clave que entran en vigor el 1 de febrero de 2027.",
+      items: [
+        { title: "El umbral de entrada se duplica", text: "Canales nuevos: 8.000 horas o 20 M de visualizaciones de Shorts." },
+        { title: "Shorts: mínimo 10 M", text: "Para ganar con el Shorts Creator Pool cada mes." },
+        { title: "Premium Lite en todas partes", text: "Se expande a todos los países con Premium — más ingresos." },
+        { title: "45% por anuncios dirigidos", text: "Si un anunciante elige ≤5 canales — parte directa." },
+        { title: "Nuevas bonificaciones", text: "Bonos por Shopping, acuerdos de marca y tendencias." },
+        { title: "Creadores actuales protegidos", text: "Quienes ya están en YPP no se ven afectados por los nuevos umbrales." },
+      ],
+    },
+    compare: {
+      kicker: "Comparación",
+      title1: "Umbrales de entrada:",
+      titleHighlight: "2026 → 2027",
+      lead: "Los nuevos umbrales solo afectan a los creadores nuevos que solicitan YPP para anuncios y Premium.",
+      colBefore: "Antes de 2027",
+      colAfter: "Desde el 1 de febrero de 2027",
+      footnote: "1.000 suscriptores siguen siendo un requisito en ambos casos.",
+      rows: [
+        { label: "Horas de visualización (365 días)", before: "4.000", after: 8000, afterSuffix: "" },
+        { label: "Visualizaciones de Shorts (90 días)", before: "10 M", after: 20, afterSuffix: " M" },
+        { label: "Mínimo para Shorts Creator Pool", before: "—", after: 10, afterSuffix: " M" },
+      ],
+    },
+    shorts: {
+      kicker: "Shorts",
+      title1: "Para ganar con Shorts —",
+      titleHighlight: "10 M de visualizaciones",
+      paragraph:
+        "Desde el 1 de febrero de 2027, para recibir ingresos mensuales del Shorts Creator Pool, un canal debe mantener 10 millones de visualizaciones válidas de Shorts en los últimos 90 días.",
+      bullets: [
+        "Por debajo del umbral no te expulsan de YPP.",
+        "Los ingresos de long-form no se ven afectados.",
+        "Al volver a superar los 10 M, los ingresos de Shorts se reanudan automáticamente.",
+      ],
+      cardLabel: "visualizaciones de Shorts en 90 días — mínimo del Creator Pool",
+      threshold: "10 M — umbral",
+    },
+    premium: {
+      kicker: "Premium Lite",
+      title1: "Más suscriptores —",
+      titleHighlight: "más ingresos",
+      lead: "YouTube expande Premium Lite a todos los países con Premium y actualiza cómo se reparten los ingresos con los creadores.",
+      litePool: "Fondo Premium Lite",
+      liteText: "de los ingresos netos de la suscripción Premium Lite se comparte con los creadores.",
+      premiumPool: "Fondo Premium",
+      premiumText: "de los ingresos netos de Premium se comparte con los creadores.",
+      targetedTitle: "Anuncios dirigidos de Shorts",
+      targetedText:
+        "Si un anunciante dirige un anuncio a 5 canales o menos, el creador gana el 45% de esos ingresos directamente — además del Creator Pool estándar.",
+      donutCenter: "55 / 45",
+      donutSub: "long / shorts",
+      legendLong: "55% long-form",
+      legendShorts: "45% Shorts",
+    },
+    bonuses: {
+      kicker: "Nuevas bonificaciones",
+      title1: "Más formas",
+      titleHighlight: "de ganar",
+      lead: "Más allá de los anuncios, YouTube introduce nuevos programas de bonificación que premian el crecimiento, la interacción y modelos de negocio diversos.",
+      items: [
+        { title: "Bonos de YouTube Shopping", text: "Pagos extra por ventas a través de Shopping." },
+        { title: "Créditos de producción por acuerdos de marca", text: "Apoyo para colaboraciones con marcas." },
+        { title: "Impulsos por tendencias culturales", text: "Ingresos por iniciar y hacer crecer tendencias." },
+      ],
+    },
+    timeline: {
+      kicker: "Fechas clave",
+      title1: "Calendario de",
+      titleHighlight: "cambios",
+      items: [
+        { date: "10 de agosto de 2026", title: "Anuncio", text: "YouTube anunció los primeros grandes cambios de YPP desde 2018." },
+        { date: "31 de enero de 2027", title: "Fecha límite", text: "Acepta las nuevas condiciones en YouTube Studio para seguir ganando." },
+        { date: "1 de febrero de 2027", title: "Inicio", text: "Las nuevas reglas entran en vigor para todos los creadores." },
+      ],
+    },
+    affected: {
+      kicker: "A quién afecta",
+      title1: "A quién afectan las",
+      titleHighlight: "nuevas reglas",
+      newTitle: "Creadores nuevos",
+      newText: "Para entrar en YPP (anuncios + Premium) ahora necesitas: 1.000 suscriptores + 8.000 horas de visualización o 20 M de visualizaciones de Shorts.",
+      existingTitle: "Miembros actuales de YPP",
+      existingText: "No les afectan los nuevos umbrales. Pero deben aceptar las condiciones actualizadas en YouTube Studio antes del 31 de enero de 2027.",
+      activityTitle: "Nuevos requisitos de actividad",
+      activityText:
+        "Un canal se considera activo si tiene 1.000 horas de visualización en 365 días, o 1 M de visualizaciones de Shorts en 90 días, o sube 2 vídeos long-form / 5 Shorts cada 90 días.",
+    },
+    faq: {
+      kicker: "FAQ",
+      title1: "Preguntas",
+      titleHighlight: "frecuentes",
+      items: [
+        { q: "¿A quién afectan los nuevos umbrales de entrada a YPP?", a: "Solo a los creadores nuevos que se postulen después del 1 de febrero de 2027. Los miembros actuales de YPP siguen en el programa sin importar las nuevas cifras." },
+        { q: "¿Cuánto necesito ahora para entrar en YPP?", a: "1.000 suscriptores + 8.000 horas de visualización en 365 días O 20 M de visualizaciones de Shorts en 90 días." },
+        { q: "¿Qué cambia para Shorts?", a: "Para ganar mensualmente con el Shorts Creator Pool necesitas mantener 10 M de visualizaciones de Shorts en 90 días. Por debajo sigues en YPP y continúas ganando con long-form." },
+        { q: "¿Y Fan Funding y Shopping?", a: "Los umbrales no cambian: 500 suscriptores + 3.000 horas de visualización o 3 M de visualizaciones de Shorts en 90 días." },
+        { q: "¿Qué es Premium Lite y cómo afecta a los ingresos?", a: "Premium Lite se expande a todos los países con Premium. Los creadores comparten un fondo: 60% de los ingresos netos de Premium Lite y 30% de Premium; reparto 55% long-form y 45% Shorts." },
+        { q: "¿Qué pasa si no acepto las nuevas condiciones antes del 31 de enero de 2027?", a: "Desde el 1 de febrero de 2027 dejas de ganar con las funciones de monetización afectadas hasta aceptar las condiciones en YouTube Studio. No pierdes tu estado en YPP." },
+        { q: "¿Esto es sobre monetización o sobre normas de la comunidad?", a: "Sobre monetización. Los cambios anunciados afectan al Programa de Partners de YouTube. Las normas de la comunidad y del contenido no cambian con este anuncio." },
+      ],
+    },
+    sources: {
+      kicker: "Fuentes",
+      title1: "De dónde vienen",
+      titleHighlight: "los datos",
+      lead: "Cada cifra se ha verificado con fuentes oficiales de YouTube y publicaciones líderes.",
+      official: "Oficial",
+      media: "Medios",
+    },
+    footer: {
+      disclaimer: "Sitio informativo no oficial. Consulta YouTube Studio para las condiciones oficiales y vigentes.",
+      copyright: "© 2026 · Basado en fuentes oficiales de YouTube (a agosto de 2026)",
+    },
+  },
+
+  de: {
+    nav: {
+      changes: "Was sich ändert",
+      compare: "Vergleich",
+      shorts: "Shorts",
+      premium: "Premium",
+      timeline: "Termine",
+      faq: "FAQ",
+      cta: "Mehr erfahren",
+      menu: "Menü",
+    },
+    hero: {
+      badge: "Änderungen gelten ab 1. Februar 2027",
+      title1: "Neue",
+      titleHighlight: "YouTube-Monetarisierungsregeln",
+      title2: "2027",
+      subtitle:
+        "Die erste große Änderung am YouTube-Partnerprogramm seit 2018: neue Einstiegshürden, neue Shorts-Regeln, erweitertes Premium Lite und Bonusprogramme. Wir erklären alles — mit Links zu Primärquellen.",
+      cta1: "Mehr erfahren",
+      cta2: "2026 → 2027 vergleichen",
+      countdownTitle: "Bis zum Start der neuen Regeln",
+      days: "Tage",
+      hours: "Stunden",
+      minutes: "Minuten",
+      seconds: "Sekunden",
+    },
+    ticker: [
+      "8.000 Stunden — neue Hürde",
+      "20 Mio. Shorts-Aufrufe",
+      "10 Mio. — Shorts Creator Pool",
+      "Premium Lite 60%",
+      "45% gezielte Anzeigen",
+      "Ab 1. Februar 2027",
+    ],
+    stats: [
+      { value: 8000, prefix: "", suffix: " Stunden", label: "neue Einstiegshürde (vorher 4.000)" },
+      { value: 20, prefix: "", suffix: " Mio.", label: "Shorts-Aufrufe — neue Hürde (vorher 10 Mio.)" },
+      { value: 10, prefix: "", suffix: " Mio.", label: "Shorts-Aufrufe/90 Tage — Creator-Pool-Minimum" },
+      { value: 100, prefix: "$", suffix: "+ Mrd.", label: "in den letzten 4 Jahren an Creator ausgezahlt" },
+    ],
+    changes: {
+      kicker: "Was sich ändert",
+      title1: "Wichtige Änderungen",
+      titleHighlight: "auf einen Blick",
+      lead: "Sechs wichtige Änderungen, die am 1. Februar 2027 in Kraft treten.",
+      items: [
+        { title: "Einstiegshürde verdoppelt sich", text: "Neue Kanäle: 8.000 Stunden oder 20 Mio. Shorts-Aufrufe." },
+        { title: "Shorts: mindestens 10 Mio.", text: "Um monatlich vom Shorts Creator Pool zu verdienen." },
+        { title: "Premium Lite überall", text: "Ausweitung auf alle Premium-Länder — mehr Einnahmen." },
+        { title: "45% für gezielte Anzeigen", text: "Wählt ein Werbetreibender ≤5 Kanäle — direkter Anteil." },
+        { title: "Neue Boni", text: "Boni für Shopping, Brand Deals und kulturelle Trends." },
+        { title: "Bestandskanäle geschützt", text: "Wer bereits im YPP ist, ist von den neuen Hürden nicht betroffen." },
+      ],
+    },
+    compare: {
+      kicker: "Vergleich",
+      title1: "Einstiegshürden:",
+      titleHighlight: "2026 → 2027",
+      lead: "Die neuen Hürden gelten nur für neue Creator, die sich für YPP (Anzeigen und Premium) bewerben.",
+      colBefore: "Vor 2027",
+      colAfter: "Ab 1. Februar 2027",
+      footnote: "1.000 Abonnenten bleiben in beiden Fällen Voraussetzung.",
+      rows: [
+        { label: "Wiedergabestunden (365 Tage)", before: "4.000", after: 8000, afterSuffix: "" },
+        { label: "Shorts-Aufrufe (90 Tage)", before: "10 Mio.", after: 20, afterSuffix: " Mio." },
+        { label: "Minimum für Shorts Creator Pool", before: "—", after: 10, afterSuffix: " Mio." },
+      ],
+    },
+    shorts: {
+      kicker: "Shorts",
+      title1: "Um mit Shorts zu verdienen —",
+      titleHighlight: "10 Mio. Aufrufe",
+      paragraph:
+        "Ab dem 1. Februar 2027 muss ein Kanal, um monatlich Einnahmen aus dem Shorts Creator Pool zu erhalten, 10 Millionen qualifizierte Shorts-Aufrufe in den letzten 90 Tagen halten.",
+      bullets: [
+        "Unterhalb der Schwelle fliegst du nicht aus dem YPP.",
+        "Long-form-Einnahmen sind nicht betroffen.",
+        "Über 10 Mio. wiederhergestellt, setzen die Shorts-Einnahmen automatisch wieder ein.",
+      ],
+      cardLabel: "Shorts-Aufrufe in 90 Tagen — Creator-Pool-Minimum",
+      threshold: "10 Mio. — Schwelle",
+    },
+    premium: {
+      kicker: "Premium Lite",
+      title1: "Mehr Abonnenten —",
+      titleHighlight: "mehr Einnahmen",
+      lead: "YouTube weitet Premium Lite auf alle Premium-Länder aus und aktualisiert die Aufteilung der Einnahmen mit den Creatorn.",
+      litePool: "Premium-Lite-Pool",
+      liteText: "der Netto-Aboeinnahmen von Premium Lite werden mit den Creatorn geteilt.",
+      premiumPool: "Premium-Pool",
+      premiumText: "der Nettoeinnahmen von Premium werden mit den Creatorn geteilt.",
+      targetedTitle: "Gezielte Shorts-Anzeigen",
+      targetedText:
+        "Richtet ein Werbetreibender eine Anzeige auf 5 oder weniger Kanäle, verdient der Creator 45% dieser Einnahmen direkt — zusätzlich zum Standard-Creator-Pool.",
+      donutCenter: "55 / 45",
+      donutSub: "long / shorts",
+      legendLong: "55% long-form",
+      legendShorts: "45% Shorts",
+    },
+    bonuses: {
+      kicker: "Neue Boni",
+      title1: "Mehr Wege",
+      titleHighlight: "zu verdienen",
+      lead: "Über Anzeigen hinaus führt YouTube neue Bonusprogramme ein, die Wachstum, Engagement und vielfältige Geschäftsmodelle belohnen.",
+      items: [
+        { title: "YouTube-Shopping-Boni", text: "Zusätzliche Auszahlungen für Verkäufe über Shopping." },
+        { title: "Produktionsguthaben für Brand Deals", text: "Unterstützung für Markenkooperationen." },
+        { title: "Trend-Boosts für kulturelle Trends", text: "Einnahmen für das Starten und Wachsen von Trends." },
+      ],
+    },
+    timeline: {
+      kicker: "Wichtige Termine",
+      title1: "Zeitplan der",
+      titleHighlight: "Änderungen",
+      items: [
+        { date: "10. August 2026", title: "Ankündigung", text: "YouTube kündigte die ersten großen YPP-Änderungen seit 2018 an." },
+        { date: "31. Januar 2027", title: "Frist", text: "Neue Bedingungen in YouTube Studio akzeptieren, um weiter zu verdienen." },
+        { date: "1. Februar 2027", title: "Start", text: "Die neuen Regeln treten für alle Creator in Kraft." },
+      ],
+    },
+    affected: {
+      kicker: "Wer betroffen ist",
+      title1: "Wen die",
+      titleHighlight: "neuen Regeln betreffen",
+      newTitle: "Neue Creator",
+      newText: "Für den YPP-Beitritt (Anzeigen + Premium) brauchst du jetzt: 1.000 Abonnenten + 8.000 Wiedergabestunden oder 20 Mio. Shorts-Aufrufe.",
+      existingTitle: "Bestehende YPP-Mitglieder",
+      existingText: "Von den neuen Hürden nicht betroffen. Die aktualisierten Bedingungen müssen aber bis zum 31. Januar 2027 in YouTube Studio akzeptiert werden.",
+      activityTitle: "Neue Aktivitätsanforderungen",
+      activityText:
+        "Ein Kanal gilt als aktiv, wenn er in 365 Tagen 1.000 Wiedergabestunden hat, oder 1 Mio. Shorts-Aufrufe in 90 Tagen, oder alle 90 Tage 2 long-form-Videos / 5 Shorts hochlädt.",
+    },
+    faq: {
+      kicker: "FAQ",
+      title1: "Häufige",
+      titleHighlight: "Fragen",
+      items: [
+        { q: "Wen betreffen die neuen YPP-Einstiegshürden?", a: "Nur neue Creator, die sich nach dem 1. Februar 2027 bewerben. Bestehende YPP-Mitglieder bleiben unabhängig von den neuen Zahlen im Programm." },
+        { q: "Wie viel brauche ich jetzt für den YPP-Beitritt?", a: "1.000 Abonnenten + 8.000 Wiedergabestunden in 365 Tagen ODER 20 Mio. Shorts-Aufrufe in 90 Tagen." },
+        { q: "Was ändert sich für Shorts?", a: "Um monatlich vom Shorts Creator Pool zu verdienen, brauchst du 10 Mio. Shorts-Aufrufe in 90 Tagen. Darunter bleibst du im YPP und verdienst weiter mit long-form." },
+        { q: "Was ist mit Fan Funding und Shopping?", a: "Die Hürden bleiben unverändert: 500 Abonnenten + 3.000 Wiedergabestunden oder 3 Mio. Shorts-Aufrufe in 90 Tagen." },
+        { q: "Was ist Premium Lite und wie wirkt es sich auf die Einnahmen aus?", a: "Premium Lite wird auf alle Premium-Länder ausgeweitet. Creator teilen einen Pool: 60% der Premium-Lite-Nettoeinnahmen und 30% von Premium; Aufteilung 55% long-form und 45% Shorts." },
+        { q: "Was passiert, wenn ich die neuen Bedingungen bis zum 31. Januar 2027 nicht akzeptiere?", a: "Ab dem 1. Februar 2027 verdienst du an den betroffenen Monetarisierungsfunktionen nichts mehr, bis du die Bedingungen in YouTube Studio akzeptierst. Dein YPP-Status geht nicht verloren." },
+        { q: "Geht es um Monetarisierung oder Community-Regeln?", a: "Um Monetarisierung. Die angekündigten Änderungen betreffen das YouTube-Partnerprogramm. Community- und Inhaltsregeln wurden mit dieser Ankündigung nicht geändert." },
+      ],
+    },
+    sources: {
+      kicker: "Quellen",
+      title1: "Woher die",
+      titleHighlight: "Daten stammen",
+      lead: "Jede Zahl wurde mit offiziellen YouTube-Quellen und führenden Publikationen abgeglichen.",
+      official: "Offiziell",
+      media: "Medien",
+    },
+    footer: {
+      disclaimer: "Inoffizielle Informationsseite. Offizielle und aktuelle Bedingungen findest du in YouTube Studio.",
+      copyright: "© 2026 · Basierend auf offiziellen YouTube-Quellen (Stand August 2026)",
+    },
+  },
+
+  fr: {
+    nav: {
+      changes: "Ce qui change",
+      compare: "Comparaison",
+      shorts: "Shorts",
+      premium: "Premium",
+      timeline: "Dates",
+      faq: "FAQ",
+      cta: "En savoir plus",
+      menu: "Menu",
+    },
+    hero: {
+      badge: "Les changements entrent en vigueur le 1er février 2027",
+      title1: "Nouvelles",
+      titleHighlight: "règles de monétisation YouTube",
+      title2: "2027",
+      subtitle:
+        "Le premier grand changement du Programme Partenaire YouTube depuis 2018 : nouveaux seuils d'entrée, nouvelles règles pour les Shorts, Premium Lite étendu et programmes de bonus. On vous explique tout — avec des liens vers les sources primaires.",
+      cta1: "En savoir plus",
+      cta2: "Comparer 2026 → 2027",
+      countdownTitle: "Avant le début des nouvelles règles",
+      days: "jours",
+      hours: "heures",
+      minutes: "minutes",
+      seconds: "secondes",
+    },
+    ticker: [
+      "8 000 heures — nouveau seuil",
+      "20 M de vues Shorts",
+      "10 M — Shorts Creator Pool",
+      "Premium Lite 60%",
+      "45% annonces ciblées",
+      "Dès le 1er février 2027",
+    ],
+    stats: [
+      { value: 8000, prefix: "", suffix: " heures", label: "nouveau seuil d'entrée (avant 4 000)" },
+      { value: 20, prefix: "", suffix: " M", label: "vues Shorts — nouveau seuil (avant 10 M)" },
+      { value: 10, prefix: "", suffix: " M", label: "vues Shorts/90 jours — minimum du Creator Pool" },
+      { value: 100, prefix: "$", suffix: "+ Md", label: "versé aux créateurs ces 4 dernières années" },
+    ],
+    changes: {
+      kicker: "Ce qui change",
+      title1: "Changements clés",
+      titleHighlight: "en un coup d'œil",
+      lead: "Six changements clés qui entrent en vigueur le 1er février 2027.",
+      items: [
+        { title: "Le seuil d'entrée double", text: "Nouvelles chaînes : 8 000 heures ou 20 M de vues Shorts." },
+        { title: "Shorts : minimum 10 M", text: "Pour gagner avec le Shorts Creator Pool chaque mois." },
+        { title: "Premium Lite partout", text: "Étendu à tous les pays Premium — plus de revenus." },
+        { title: "45% pour les annonces ciblées", text: "Si un annonceur choisit ≤5 chaînes — part directe." },
+        { title: "Nouveaux bonus", text: "Bonus pour Shopping, partenariats de marque et tendances." },
+        { title: "Créateurs actuels protégés", text: "Ceux déjà dans YPP ne sont pas concernés par les nouveaux seuils." },
+      ],
+    },
+    compare: {
+      kicker: "Comparaison",
+      title1: "Seuils d'entrée :",
+      titleHighlight: "2026 → 2027",
+      lead: "Les nouveaux seuils ne concernent que les nouveaux créateurs qui postulent à YPP pour les annonces et Premium.",
+      colBefore: "Avant 2027",
+      colAfter: "Dès le 1er février 2027",
+      footnote: "1 000 abonnés restent une exigence dans les deux cas.",
+      rows: [
+        { label: "Heures de visionnage (365 jours)", before: "4 000", after: 8000, afterSuffix: "" },
+        { label: "Vues Shorts (90 jours)", before: "10 M", after: 20, afterSuffix: " M" },
+        { label: "Minimum pour Shorts Creator Pool", before: "—", after: 10, afterSuffix: " M" },
+      ],
+    },
+    shorts: {
+      kicker: "Shorts",
+      title1: "Pour gagner avec les Shorts —",
+      titleHighlight: "10 M de vues",
+      paragraph:
+        "Dès le 1er février 2027, pour recevoir des revenus mensuels du Shorts Creator Pool, une chaîne doit maintenir 10 millions de vues Shorts éligibles au cours des 90 derniers jours.",
+      bullets: [
+        "Sous le seuil, vous n'êtes pas retiré de YPP.",
+        "Les revenus long-form ne sont pas affectés.",
+        "Au-dessus de 10 M à nouveau, les revenus Shorts reprennent automatiquement.",
+      ],
+      cardLabel: "vues Shorts en 90 jours — minimum du Creator Pool",
+      threshold: "10 M — seuil",
+    },
+    premium: {
+      kicker: "Premium Lite",
+      title1: "Plus d'abonnés —",
+      titleHighlight: "plus de revenus",
+      lead: "YouTube étend Premium Lite à tous les pays Premium et met à jour la répartition des revenus avec les créateurs.",
+      litePool: "Pool Premium Lite",
+      liteText: "des revenus nets de l'abonnement Premium Lite sont partagés avec les créateurs.",
+      premiumPool: "Pool Premium",
+      premiumText: "des revenus nets de Premium sont partagés avec les créateurs.",
+      targetedTitle: "Annonces Shorts ciblées",
+      targetedText:
+        "Si un annonceur cible une annonce vers 5 chaînes ou moins, le créateur gagne 45% de ces revenus directement — en plus du Creator Pool standard.",
+      donutCenter: "55 / 45",
+      donutSub: "long / shorts",
+      legendLong: "55% long-form",
+      legendShorts: "45% Shorts",
+    },
+    bonuses: {
+      kicker: "Nouveaux bonus",
+      title1: "Plus de façons",
+      titleHighlight: "de gagner",
+      lead: "Au-delà des annonces, YouTube lance de nouveaux programmes de bonus qui récompensent la croissance, l'engagement et des modèles économiques variés.",
+      items: [
+        { title: "Bonus YouTube Shopping", text: "Paiements supplémentaires pour les ventes via Shopping." },
+        { title: "Crédits de production pour partenariats de marque", text: "Soutien aux collaborations avec les marques." },
+        { title: "Boosts pour tendances culturelles", text: "Revenus pour lancer et faire grandir des tendances." },
+      ],
+    },
+    timeline: {
+      kicker: "Dates clés",
+      title1: "Calendrier des",
+      titleHighlight: "changements",
+      items: [
+        { date: "10 août 2026", title: "Annonce", text: "YouTube a annoncé les premiers grands changements YPP depuis 2018." },
+        { date: "31 janvier 2027", title: "Date limite", text: "Acceptez les nouvelles conditions dans YouTube Studio pour continuer à gagner." },
+        { date: "1er février 2027", title: "Lancement", text: "Les nouvelles règles entrent en vigueur pour tous les créateurs." },
+      ],
+    },
+    affected: {
+      kicker: "Qui est concerné",
+      title1: "Qui sont concernés par les",
+      titleHighlight: "nouvelles règles",
+      newTitle: "Nouveaux créateurs",
+      newText: "Pour rejoindre YPP (annonces + Premium), il faut désormais : 1 000 abonnés + 8 000 heures de visionnage ou 20 M de vues Shorts.",
+      existingTitle: "Membres YPP actuels",
+      existingText: "Non concernés par les nouveaux seuils. Mais vous devez accepter les conditions mises à jour dans YouTube Studio avant le 31 janvier 2027.",
+      activityTitle: "Nouvelles exigences d'activité",
+      activityText:
+        "Une chaîne est considérée comme active si elle a 1 000 heures de visionnage en 365 jours, ou 1 M de vues Shorts en 90 jours, ou publie 2 vidéos long-form / 5 Shorts tous les 90 jours.",
+    },
+    faq: {
+      kicker: "FAQ",
+      title1: "Questions",
+      titleHighlight: "fréquentes",
+      items: [
+        { q: "Qui est concerné par les nouveaux seuils d'entrée YPP ?", a: "Uniquement les nouveaux créateurs qui postulent après le 1er février 2027. Les membres YPP actuels restent dans le programme, quels que soient les nouveaux chiffres." },
+        { q: "Combien faut-il désormais pour rejoindre YPP ?", a: "1 000 abonnés + 8 000 heures de visionnage en 365 jours OU 20 M de vues Shorts en 90 jours." },
+        { q: "Qu'est-ce qui change pour les Shorts ?", a: "Pour gagner mensuellement avec le Shorts Creator Pool, il faut maintenir 10 M de vues Shorts en 90 jours. En dessous, vous restez dans YPP et continuez à gagner sur le long-form." },
+        { q: "Et pour Fan Funding et Shopping ?", a: "Les seuils ne changent pas : 500 abonnés + 3 000 heures de visionnage ou 3 M de vues Shorts en 90 jours." },
+        { q: "Qu'est-ce que Premium Lite et comment cela affecte-t-il les revenus ?", a: "Premium Lite s'étend à tous les pays Premium. Les créateurs partagent un pool : 60% des revenus nets de Premium Lite et 30% de Premium ; répartition 55% long-form et 45% Shorts." },
+        { q: "Que se passe-t-il si je n'accepte pas les nouvelles conditions avant le 31 janvier 2027 ?", a: "Dès le 1er février 2027, vous cessez de gagner sur les fonctions de monétisation concernées jusqu'à acceptation des conditions dans YouTube Studio. Votre statut YPP n'est pas perdu." },
+        { q: "S'agit-il de monétisation ou des règles de la communauté ?", a: "De monétisation. Les changements annoncés concernent le Programme Partenaire YouTube. Les règles de la communauté et du contenu ne sont pas modifiées par cette annonce." },
+      ],
+    },
+    sources: {
+      kicker: "Sources",
+      title1: "D'où viennent",
+      titleHighlight: "les données",
+      lead: "Chaque chiffre a été vérifié auprès des sources officielles de YouTube et de publications de référence.",
+      official: "Officiel",
+      media: "Médias",
+    },
+    footer: {
+      disclaimer: "Site d'information non officiel. Consultez YouTube Studio pour les conditions officielles et à jour.",
+      copyright: "© 2026 · Basé sur les sources officielles de YouTube (état août 2026)",
+    },
+  },
+
+  pl: {
+    nav: {
+      changes: "Co się zmienia",
+      compare: "Porównanie",
+      shorts: "Shorts",
+      premium: "Premium",
+      timeline: "Daty",
+      faq: "FAQ",
+      cta: "Dowiedz się więcej",
+      menu: "Menu",
+    },
+    hero: {
+      badge: "Zmiany wchodzą w życie 1 lutego 2027",
+      title1: "Nowe",
+      titleHighlight: "zasady monetyzacji YouTube",
+      title2: "2027",
+      subtitle:
+        "Pierwsza duża zmiana w Programie partnerskim YouTube od 2018 roku: nowe progi wejścia, nowe zasady dla Shorts, rozszerzone Premium Lite i programy bonusowe. Wszystko wyjaśniamy — z linkami do źródeł.",
+      cta1: "Dowiedz się więcej",
+      cta2: "Porównaj 2026 → 2027",
+      countdownTitle: "Do startu nowych zasad",
+      days: "dni",
+      hours: "godzin",
+      minutes: "minut",
+      seconds: "sekund",
+    },
+    ticker: [
+      "8 000 godzin — nowy próg",
+      "20 mln wyświetleń Shorts",
+      "10 mln — Shorts Creator Pool",
+      "Premium Lite 60%",
+      "45% reklamy targetowane",
+      "Od 1 lutego 2027",
+    ],
+    stats: [
+      { value: 8000, prefix: "", suffix: " godzin", label: "nowy próg wejścia (było 4 000)" },
+      { value: 20, prefix: "", suffix: " mln", label: "wyświetleń Shorts — nowy próg (było 10 mln)" },
+      { value: 10, prefix: "", suffix: " mln", label: "wyświetleń Shorts/90 dni — minimum Creator Pool" },
+      { value: 100, prefix: "$", suffix: "+ mld", label: "wypłacono twórcom w ciągu ostatnich 4 lat" },
+    ],
+    changes: {
+      kicker: "Co się zmienia",
+      title1: "Kluczowe zmiany",
+      titleHighlight: "w pigułce",
+      lead: "Sześć kluczowych zmian, które wchodzą w życie 1 lutego 2027 roku.",
+      items: [
+        { title: "Próg wejścia rośnie dwukrotnie", text: "Nowe kanały: 8 000 godzin lub 20 mln wyświetleń Shorts." },
+        { title: "Shorts: minimum 10 mln", text: "Aby zarabiać z Shorts Creator Pool co miesiąc." },
+        { title: "Premium Lite wszędzie", text: "Rozszerzenie na wszystkie kraje z Premium — większy dochód." },
+        { title: "45% za reklamy targetowane", text: "Gdy reklamodawca wybiera ≤5 kanałów — bezpośredni udział." },
+        { title: "Nowe bonusy", text: "Bonusy za Shopping, brand deals i trendy kulturowe." },
+        { title: "Obecni twórcy chronieni", text: "Ci, którzy już są w YPP, nie są objęci nowymi progami." },
+      ],
+    },
+    compare: {
+      kicker: "Porównanie",
+      title1: "Progi wejścia:",
+      titleHighlight: "2026 → 2027",
+      lead: "Nowe progi dotyczą tylko nowych twórców ubiegających się o YPP dla reklam i Premium.",
+      colBefore: "Przed 2027",
+      colAfter: "Od 1 lutego 2027",
+      footnote: "1 000 subskrybentów pozostaje wymogiem w obu przypadkach.",
+      rows: [
+        { label: "Godziny oglądania (365 dni)", before: "4 000", after: 8000, afterSuffix: "" },
+        { label: "Wyświetlenia Shorts (90 dni)", before: "10 mln", after: 20, afterSuffix: " mln" },
+        { label: "Minimum dla Shorts Creator Pool", before: "—", after: 10, afterSuffix: " mln" },
+      ],
+    },
+    shorts: {
+      kicker: "Shorts",
+      title1: "Aby zarabiać na Shorts —",
+      titleHighlight: "10 mln wyświetleń",
+      paragraph:
+        "Od 1 lutego 2027 roku, aby co miesiąc otrzymywać dochód z Shorts Creator Pool, kanał musi utrzymywać 10 milionów kwalifikowanych wyświetleń Shorts w ciągu ostatnich 90 dni.",
+      bullets: [
+        "Poniżej progu nie wypadasz z YPP.",
+        "Dochód z long-form nie jest zagrożony.",
+        "Po powrocie powyżej 10 mln dochód z Shorts wznawia się automatycznie.",
+      ],
+      cardLabel: "wyświetleń Shorts w 90 dni — minimum Creator Pool",
+      threshold: "10 mln — próg",
+    },
+    premium: {
+      kicker: "Premium Lite",
+      title1: "Więcej subskrybentów —",
+      titleHighlight: "większy dochód",
+      lead: "YouTube rozszerza Premium Lite na wszystkie kraje z Premium i aktualizuje podział przychodów z twórcami.",
+      litePool: "Pula Premium Lite",
+      liteText: "dochodu netto z subskrypcji Premium Lite trafia do twórców.",
+      premiumPool: "Pula Premium",
+      premiumText: "dochodu netto z Premium trafia do twórców.",
+      targetedTitle: "Targetowane reklamy Shorts",
+      targetedText:
+        "Jeśli reklamodawca kieruje reklamę do 5 lub mniej kanałów, twórca otrzymuje 45% tych przychodów bezpośrednio — dodatkowo do standardowego Creator Pool.",
+      donutCenter: "55 / 45",
+      donutSub: "long / shorts",
+      legendLong: "55% long-form",
+      legendShorts: "45% Shorts",
+    },
+    bonuses: {
+      kicker: "Nowe bonusy",
+      title1: "Więcej sposobów",
+      titleHighlight: "na zarabianie",
+      lead: "Poza reklamami YouTube wprowadza nowe programy bonusowe, które nagradzają rozwój, zaangażowanie i różne modele biznesowe.",
+      items: [
+        { title: "Bonusy YouTube Shopping", text: "Dodatkowe wypłaty za sprzedaż przez Shopping." },
+        { title: "Kredyty produkcyjne za brand deals", text: "Wsparcie dla współprac z markami." },
+        { title: "Boosty za trendy kulturowe", text: "Zarobek za rozpoczynanie i rozwijanie trendów." },
+      ],
+    },
+    timeline: {
+      kicker: "Kluczowe daty",
+      title1: "Kalendarz",
+      titleHighlight: "zmian",
+      items: [
+        { date: "10 sierpnia 2026", title: "Ogłoszenie", text: "YouTube ogłosił pierwsze duże zmiany YPP od 2018 roku." },
+        { date: "31 stycznia 2027", title: "Termin", text: "Zaakceptuj nowe warunki w YouTube Studio, aby nie stracić zarobków." },
+        { date: "1 lutego 2027", title: "Start", text: "Nowe zasady wchodzą w życie dla wszystkich twórców." },
+      ],
+    },
+    affected: {
+      kicker: "Kogo dotyczy",
+      title1: "Kogo dotyczą",
+      titleHighlight: "nowe zasady",
+      newTitle: "Nowi twórcy",
+      newText: "Aby dołączyć do YPP (reklamy + Premium), potrzeba teraz: 1 000 subskrybentów + 8 000 godzin oglądania lub 20 mln wyświetleń Shorts.",
+      existingTitle: "Obecni członkowie YPP",
+      existingText: "Nie dotyczą ich nowe progi. Ale do 31 stycznia 2027 muszą zaakceptować zaktualizowane warunki w YouTube Studio.",
+      activityTitle: "Nowe wymogi aktywności",
+      activityText:
+        "Kanał uznaje się za aktywny, jeśli ma 1 000 godzin oglądania w 365 dni, lub 1 mln wyświetleń Shorts w 90 dni, lub publikuje 2 filmy long-form / 5 Shorts co 90 dni.",
+    },
+    faq: {
+      kicker: "FAQ",
+      title1: "Częste",
+      titleHighlight: "pytania",
+      items: [
+        { q: "Kogo dotyczą nowe progi wejścia do YPP?", a: "Tylko nowych twórców, którzy aplikują po 1 lutego 2027 roku. Obecni członkowie YPP pozostają w programie niezależnie od nowych liczb." },
+        { q: "Ile potrzeba teraz, aby dołączyć do YPP?", a: "1 000 subskrybentów + 8 000 godzin oglądania w 365 dni LUB 20 mln wyświetleń Shorts w 90 dni." },
+        { q: "Co się zmienia dla Shorts?", a: "Aby co miesiąc zarabiać z Shorts Creator Pool, trzeba utrzymywać 10 mln wyświetleń Shorts w 90 dni. Poniżej progu pozostajesz w YPP i nadal zarabiasz na long-form." },
+        { q: "A Fan Funding i Shopping?", a: "Progi się nie zmieniają: 500 subskrybentów + 3 000 godzin oglądania lub 3 mln wyświetleń Shorts w 90 dni." },
+        { q: "Czym jest Premium Lite i jak wpływa na dochód?", a: "Premium Lite zostaje rozszerzone na wszystkie kraje z Premium. Twórcy dzielą pulę: 60% dochodu netto Premium Lite i 30% Premium; podział 55% long-form i 45% Shorts." },
+        { q: "Co będzie, jeśli nie zaakceptuję nowych warunków do 31 stycznia 2027?", a: "Od 1 lutego 2027 przestaniesz zarabiać na danych funkcjach monetyzacji, dopóki nie zaakceptujesz warunków w YouTube Studio. Status w YPP nie zostaje utracony." },
+        { q: "Czy chodzi o monetyzację, czy o zasady społeczności?", a: "O monetyzację. Ogłoszone zmiany dotyczą Programu partnerskiego YouTube. Zasady społeczności i treści nie zostały tym ogłoszeniem zmienione." },
+      ],
+    },
+    sources: {
+      kicker: "Źródła",
+      title1: "Skąd pochodzą",
+      titleHighlight: "dane",
+      lead: "Każdą liczbę zweryfikowano z oficjalnymi źródłami YouTube i czołowymi publikacjami.",
+      official: "Oficjalne",
+      media: "Media",
+    },
+    footer: {
+      disclaimer: "Nieoficjalna strona informacyjna. Oficjalne i aktualne warunki znajdziesz w YouTube Studio.",
+      copyright: "© 2026 · Na podstawie oficjalnych źródeł YouTube (stan na sierpień 2026)",
+    },
+  },
+
+  pt: {
+    nav: {
+      changes: "O que muda",
+      compare: "Comparação",
+      shorts: "Shorts",
+      premium: "Premium",
+      timeline: "Datas",
+      faq: "FAQ",
+      cta: "Saiba mais",
+      menu: "Menu",
+    },
+    hero: {
+      badge: "As mudanças entram em vigor em 1º de fevereiro de 2027",
+      title1: "Novas",
+      titleHighlight: "regras de monetização do YouTube",
+      title2: "2027",
+      subtitle:
+        "A primeira grande mudança no Programa de Parcerias do YouTube desde 2018: novos limites de entrada, novas regras para Shorts, Premium Lite ampliado e programas de bônus. Explicamos tudo — com links para fontes primárias.",
+      cta1: "Saiba mais",
+      cta2: "Comparar 2026 → 2027",
+      countdownTitle: "Até o início das novas regras",
+      days: "dias",
+      hours: "horas",
+      minutes: "minutos",
+      seconds: "segundos",
+    },
+    ticker: [
+      "8.000 horas — novo limite",
+      "20 mi de visualizações de Shorts",
+      "10 mi — Shorts Creator Pool",
+      "Premium Lite 60%",
+      "45% anúncios direcionados",
+      "A partir de 1º de fev. de 2027",
+    ],
+    stats: [
+      { value: 8000, prefix: "", suffix: " horas", label: "novo limite de entrada (antes 4.000)" },
+      { value: 20, prefix: "", suffix: " mi", label: "visualizações de Shorts — novo limite (antes 10 mi)" },
+      { value: 10, prefix: "", suffix: " mi", label: "visualizações de Shorts/90 dias — mínimo do Creator Pool" },
+      { value: 100, prefix: "$", suffix: "+ bi", label: "pago aos criadores nos últimos 4 anos" },
+    ],
+    changes: {
+      kicker: "O que muda",
+      title1: "Mudanças principais",
+      titleHighlight: "em resumo",
+      lead: "Seis mudanças principais que entram em vigor em 1º de fevereiro de 2027.",
+      items: [
+        { title: "O limite de entrada dobra", text: "Novos canais: 8.000 horas ou 20 mi de visualizações de Shorts." },
+        { title: "Shorts: mínimo de 10 mi", text: "Para ganhar com o Shorts Creator Pool todo mês." },
+        { title: "Premium Lite em todo lugar", text: "Expansão para todos os países com Premium — mais renda." },
+        { title: "45% por anúncios direcionados", text: "Se um anunciante escolher ≤5 canais — participação direta." },
+        { title: "Novos bônus", text: "Bônus por Shopping, parcerias de marca e tendências culturais." },
+        { title: "Criadores atuais protegidos", text: "Quem já está no YPP não é afetado pelos novos limites." },
+      ],
+    },
+    compare: {
+      kicker: "Comparação",
+      title1: "Limites de entrada:",
+      titleHighlight: "2026 → 2027",
+      lead: "Os novos limites afetam apenas os novos criadores que se inscrevem no YPP para anúncios e Premium.",
+      colBefore: "Antes de 2027",
+      colAfter: "A partir de 1º de fev. de 2027",
+      footnote: "1.000 inscritos continuam sendo um requisito em ambos os casos.",
+      rows: [
+        { label: "Horas de exibição (365 dias)", before: "4.000", after: 8000, afterSuffix: "" },
+        { label: "Visualizações de Shorts (90 dias)", before: "10 mi", after: 20, afterSuffix: " mi" },
+        { label: "Mínimo para Shorts Creator Pool", before: "—", after: 10, afterSuffix: " mi" },
+      ],
+    },
+    shorts: {
+      kicker: "Shorts",
+      title1: "Para ganhar com Shorts —",
+      titleHighlight: "10 mi de visualizações",
+      paragraph:
+        "A partir de 1º de fevereiro de 2027, para receber receita mensal do Shorts Creator Pool, um canal deve manter 10 milhões de visualizações qualificadas de Shorts nos últimos 90 dias.",
+      bullets: [
+        "Abaixo do limite você não é removido do YPP.",
+        "A receita de long-form não é afetada.",
+        "Ao voltar acima de 10 mi, a receita de Shorts é retomada automaticamente.",
+      ],
+      cardLabel: "visualizações de Shorts em 90 dias — mínimo do Creator Pool",
+      threshold: "10 mi — limite",
+    },
+    premium: {
+      kicker: "Premium Lite",
+      title1: "Mais assinantes —",
+      titleHighlight: "mais renda",
+      lead: "O YouTube está ampliando o Premium Lite para todos os países com Premium e atualizando a divisão de receita com os criadores.",
+      litePool: "Fundo Premium Lite",
+      liteText: "da receita líquida da assinatura Premium Lite é compartilhada com os criadores.",
+      premiumPool: "Fundo Premium",
+      premiumText: "da receita líquida do Premium é compartilhada com os criadores.",
+      targetedTitle: "Anúncios direcionados de Shorts",
+      targetedText:
+        "Se um anunciante direcionar um anúncio para 5 canais ou menos, o criador ganha 45% dessa receita diretamente — além do Creator Pool padrão.",
+      donutCenter: "55 / 45",
+      donutSub: "long / shorts",
+      legendLong: "55% long-form",
+      legendShorts: "45% Shorts",
+    },
+    bonuses: {
+      kicker: "Novos bônus",
+      title1: "Mais formas",
+      titleHighlight: "de ganhar",
+      lead: "Além dos anúncios, o YouTube introduz novos programas de bônus que recompensam crescimento, engajamento e modelos de negócios diversos.",
+      items: [
+        { title: "Bônus do YouTube Shopping", text: "Pagamentos extras por vendas pelo Shopping." },
+        { title: "Créditos de produção por parcerias de marca", text: "Apoio para colaborações com marcas." },
+        { title: "Impulsos por tendências culturais", text: "Renda por iniciar e desenvolver tendências." },
+      ],
+    },
+    timeline: {
+      kicker: "Datas importantes",
+      title1: "Calendário de",
+      titleHighlight: "mudanças",
+      items: [
+        { date: "10 de agosto de 2026", title: "Anúncio", text: "O YouTube anunciou as primeiras grandes mudanças no YPP desde 2018." },
+        { date: "31 de janeiro de 2027", title: "Prazo final", text: "Aceite os novos termos no YouTube Studio para continuar ganhando." },
+        { date: "1º de fevereiro de 2027", title: "Início", text: "As novas regras entram em vigor para todos os criadores." },
+      ],
+    },
+    affected: {
+      kicker: "Quem é afetado",
+      title1: "Quem as",
+      titleHighlight: "novas regras afetam",
+      newTitle: "Novos criadores",
+      newText: "Para entrar no YPP (anúncios + Premium) agora você precisa de: 1.000 inscritos + 8.000 horas de exibição ou 20 mi de visualizações de Shorts.",
+      existingTitle: "Membros atuais do YPP",
+      existingText: "Não são afetados pelos novos limites. Mas precisam aceitar os termos atualizados no YouTube Studio até 31 de janeiro de 2027.",
+      activityTitle: "Novos requisitos de atividade",
+      activityText:
+        "Um canal é considerado ativo se tiver 1.000 horas de exibição em 365 dias, ou 1 mi de visualizações de Shorts em 90 dias, ou publicar 2 vídeos long-form / 5 Shorts a cada 90 dias.",
+    },
+    faq: {
+      kicker: "FAQ",
+      title1: "Perguntas",
+      titleHighlight: "frequentes",
+      items: [
+        { q: "Quem é afetado pelos novos limites de entrada no YPP?", a: "Apenas os novos criadores que se inscrevem após 1º de fevereiro de 2027. Os membros atuais do YPP permanecem no programa independentemente dos novos números." },
+        { q: "Quanto preciso agora para entrar no YPP?", a: "1.000 inscritos + 8.000 horas de exibição em 365 dias OU 20 mi de visualizações de Shorts em 90 dias." },
+        { q: "O que muda para os Shorts?", a: "Para ganhar mensalmente com o Shorts Creator Pool, você precisa manter 10 mi de visualizações de Shorts em 90 dias. Abaixo disso, você permanece no YPP e continua ganhando com long-form." },
+        { q: "E Fan Funding e Shopping?", a: "Os limites não mudam: 500 inscritos + 3.000 horas de exibição ou 3 mi de visualizações de Shorts em 90 dias." },
+        { q: "O que é o Premium Lite e como ele afeta a renda?", a: "O Premium Lite está sendo ampliado para todos os países com Premium. Os criadores dividem um fundo: 60% da receita líquida do Premium Lite e 30% do Premium; divisão de 55% long-form e 45% Shorts." },
+        { q: "E se eu não aceitar os novos termos até 31 de janeiro de 2027?", a: "A partir de 1º de fevereiro de 2027 você deixa de ganhar com os recursos de monetização afetados até aceitar os termos no YouTube Studio. Seu status no YPP não é perdido." },
+        { q: "Isso é sobre monetização ou regras da comunidade?", a: "Sobre monetização. As mudanças anunciadas dizem respeito ao Programa de Parcerias do YouTube. As regras da comunidade e do conteúdo não mudaram com este anúncio." },
+      ],
+    },
+    sources: {
+      kicker: "Fontes",
+      title1: "De onde vêm",
+      titleHighlight: "os dados",
+      lead: "Cada número foi verificado com fontes oficiais do YouTube e publicações líderes.",
+      official: "Oficial",
+      media: "Mídia",
+    },
+    footer: {
+      disclaimer: "Site informativo não oficial. Consulte o YouTube Studio para os termos oficiais e atuais.",
+      copyright: "© 2026 · Com base em fontes oficiais do YouTube (em agosto de 2026)",
+    },
+  },
+
+  tr: {
+    nav: {
+      changes: "Neler değişiyor",
+      compare: "Karşılaştırma",
+      shorts: "Shorts",
+      premium: "Premium",
+      timeline: "Tarihler",
+      faq: "SSS",
+      cta: "Daha fazla",
+      menu: "Menü",
+    },
+    hero: {
+      badge: "Değişiklikler 1 Şubat 2027'de yürürlüğe giriyor",
+      title1: "Yeni",
+      titleHighlight: "YouTube para kazanma kuralları",
+      title2: "2027",
+      subtitle:
+        "YouTube İş Ortağı Programı'nda 2018'den bu yana ilk büyük değişiklik: yeni giriş eşikleri, yeni Shorts kuralları, genişletilmiş Premium Lite ve bonus programları. Hepsini kaynaklara bağlantılarla açıklıyoruz.",
+      cta1: "Daha fazla",
+      cta2: "2026 → 2027 karşılaştır",
+      countdownTitle: "Yeni kuralların başlamasına",
+      days: "gün",
+      hours: "saat",
+      minutes: "dakika",
+      seconds: "saniye",
+    },
+    ticker: [
+      "8.000 saat — yeni eşik",
+      "20 milyon Shorts görüntüleme",
+      "10 milyon — Shorts Creator Pool",
+      "Premium Lite %60",
+      "%45 hedefli reklam",
+      "1 Şubat 2027'den itibaren",
+    ],
+    stats: [
+      { value: 8000, prefix: "", suffix: " saat", label: "yeni giriş eşiği (önceki 4.000)" },
+      { value: 20, prefix: "", suffix: " milyon", label: "Shorts görüntüleme — yeni eşik (önceki 10 milyon)" },
+      { value: 10, prefix: "", suffix: " milyon", label: "Shorts görüntüleme/90 gün — Creator Pool minimumu" },
+      { value: 100, prefix: "$", suffix: "+ milyar", label: "son 4 yılda içerik üreticilere ödendi" },
+    ],
+    changes: {
+      kicker: "Neler değişiyor",
+      title1: "Önemli değişiklikler",
+      titleHighlight: "tek bakışta",
+      lead: "1 Şubat 2027'de yürürlüğe giren altı önemli değişiklik.",
+      items: [
+        { title: "Giriş eşiği iki katına çıkıyor", text: "Yeni kanallar: 8.000 saat veya 20 milyon Shorts görüntüleme." },
+        { title: "Shorts: minimum 10 milyon", text: "Her ay Shorts Creator Pool'dan kazanmak için." },
+        { title: "Premium Lite her yerde", text: "Tüm Premium ülkelerine genişliyor — daha fazla kazanç." },
+        { title: "Hedefli reklam için %45", text: "Reklamveren ≤5 kanal seçerse — doğrudan pay." },
+        { title: "Yeni bonuslar", text: "Shopping, marka anlaşmaları ve kültürel trendler için bonuslar." },
+        { title: "Mevcut üreticiler korunuyor", text: "Zaten YPP'de olanlar yeni eşiklerden etkilenmez." },
+      ],
+    },
+    compare: {
+      kicker: "Karşılaştırma",
+      title1: "Giriş eşikleri:",
+      titleHighlight: "2026 → 2027",
+      lead: "Yeni eşikler yalnızca reklam ve Premium için YPP'ye başvuran yeni üreticileri etkiler.",
+      colBefore: "2027 öncesi",
+      colAfter: "1 Şubat 2027'den itibaren",
+      footnote: "1.000 abone her iki durumda da şart olmaya devam ediyor.",
+      rows: [
+        { label: "İzlenme saati (365 gün)", before: "4.000", after: 8000, afterSuffix: "" },
+        { label: "Shorts görüntüleme (90 gün)", before: "10 milyon", after: 20, afterSuffix: " milyon" },
+        { label: "Shorts Creator Pool için minimum", before: "—", after: 10, afterSuffix: " milyon" },
+      ],
+    },
+    shorts: {
+      kicker: "Shorts",
+      title1: "Shorts'tan kazanmak için —",
+      titleHighlight: "10 milyon görüntüleme",
+      paragraph:
+        "1 Şubat 2027'den itibaren Shorts Creator Pool'dan aylık gelir elde etmek için bir kanalın son 90 günde 10 milyon nitelikli Shorts görüntülemesine sahip olması gerekir.",
+      bullets: [
+        "Eşiğin altında YPP'den çıkarılmazsınız.",
+        "Long-form geliri etkilenmez.",
+        "Tekrar 10 milyonun üzerine çıkınca Shorts geliri otomatik olarak devam eder.",
+      ],
+      cardLabel: "90 günde Shorts görüntüleme — Creator Pool minimumu",
+      threshold: "10 milyon — eşik",
+    },
+    premium: {
+      kicker: "Premium Lite",
+      title1: "Daha fazla abone —",
+      titleHighlight: "daha fazla kazanç",
+      lead: "YouTube, Premium Lite'ı Premium bulunan tüm ülkelere genişletiyor ve gelirin üreticilerle nasıl paylaşıldığını güncelliyor.",
+      litePool: "Premium Lite havuzu",
+      liteText: "Premium Lite abonelik net gelirinin kadarı üreticilerle paylaşılır.",
+      premiumPool: "Premium havuzu",
+      premiumText: "Premium net gelirinin kadarı üreticilerle paylaşılır.",
+      targetedTitle: "Hedefli Shorts reklamları",
+      targetedText:
+        "Bir reklamveren reklamı 5 veya daha az kanala hedeflerse, üretici bu gelirin %45'ini doğrudan kazanır — standart Creator Pool'a ek olarak.",
+      donutCenter: "55 / 45",
+      donutSub: "long / shorts",
+      legendLong: "%55 long-form",
+      legendShorts: "%45 Shorts",
+    },
+    bonuses: {
+      kicker: "Yeni bonuslar",
+      title1: "Kazanmanın",
+      titleHighlight: "daha fazla yolu",
+      lead: "Reklamların ötesinde YouTube; büyümeyi, etkileşimi ve çeşitli iş modellerini ödüllendiren yeni bonus programları sunuyor.",
+      items: [
+        { title: "YouTube Shopping bonusları", text: "Shopping üzerinden satışlar için ekstra ödemeler." },
+        { title: "Marka anlaşmaları için prodüksiyon kredisi", text: "Marka iş birlikleri için destek." },
+        { title: "Kültürel trend destekleri", text: "Trendleri başlatmak ve büyütmek için kazanç." },
+      ],
+    },
+    timeline: {
+      kicker: "Önemli tarihler",
+      title1: "Değişim",
+      titleHighlight: "takvimi",
+      items: [
+        { date: "10 Ağustos 2026", title: "Duyuru", text: "YouTube, 2018'den bu yana ilk büyük YPP değişikliklerini duyurdu." },
+        { date: "31 Ocak 2027", title: "Son tarih", text: "Kazanmaya devam etmek için YouTube Studio'da yeni şartları kabul edin." },
+        { date: "1 Şubat 2027", title: "Başlangıç", text: "Yeni kurallar tüm üreticiler için yürürlüğe girer." },
+      ],
+    },
+    affected: {
+      kicker: "Kimler etkileniyor",
+      title1: "Yeni kurallar",
+      titleHighlight: "kimleri etkiliyor",
+      newTitle: "Yeni üreticiler",
+      newText: "YPP'ye katılmak için (reklam + Premium) artık şunlar gerekiyor: 1.000 abone + 8.000 izlenme saati veya 20 milyon Shorts görüntüleme.",
+      existingTitle: "Mevcut YPP üyeleri",
+      existingText: "Yeni eşiklerden etkilenmezler. Ancak 31 Ocak 2027'ye kadar YouTube Studio'da güncellenen şartları kabul etmeleri gerekir.",
+      activityTitle: "Yeni etkinlik şartları",
+      activityText:
+        "Bir kanal; 365 günde 1.000 izlenme saatine, veya 90 günde 1 milyon Shorts görüntülemesine sahipse, veya her 90 günde 2 long-form video / 5 Shorts yüklerse etkin sayılır.",
+    },
+    faq: {
+      kicker: "SSS",
+      title1: "Sık sorulan",
+      titleHighlight: "sorular",
+      items: [
+        { q: "Yeni YPP giriş eşikleri kimleri etkiliyor?", a: "Yalnızca 1 Şubat 2027'den sonra başvuran yeni üreticileri. Mevcut YPP üyeleri, yeni rakamlardan bağımsız olarak programda kalır." },
+        { q: "YPP'ye katılmak için artık ne gerekiyor?", a: "1.000 abone + 365 günde 8.000 izlenme saati VEYA 90 günde 20 milyon Shorts görüntüleme." },
+        { q: "Shorts için ne değişiyor?", a: "Shorts Creator Pool'dan aylık kazanmak için 90 günde 10 milyon Shorts görüntülemesine sahip olmanız gerekir. Altında YPP'de kalır ve long-form'dan kazanmaya devam edersiniz." },
+        { q: "Fan Funding ve Shopping ne olacak?", a: "Eşikler değişmiyor: 500 abone + 3.000 izlenme saati veya 90 günde 3 milyon Shorts görüntüleme." },
+        { q: "Premium Lite nedir ve kazancı nasıl etkiler?", a: "Premium Lite, Premium bulunan tüm ülkelere genişliyor. Üreticiler bir havuzu paylaşır: Premium Lite net gelirinin %60'ı ve Premium'un %30'u; dağılım %55 long-form ve %45 Shorts." },
+        { q: "Yeni şartları 31 Ocak 2027'ye kadar kabul etmezsem ne olur?", a: "1 Şubat 2027'den itibaren, şartları YouTube Studio'da kabul edene kadar ilgili para kazanma özelliklerinden gelir elde edemezsiniz. YPP durumunuz kaybolmaz." },
+        { q: "Bu para kazanma mı yoksa topluluk kuralları mı?", a: "Para kazanma. Duyurulan değişiklikler YouTube İş Ortağı Programı ile ilgilidir. Topluluk ve içerik kuralları bu duyuruyla değişmedi." },
+      ],
+    },
+    sources: {
+      kicker: "Kaynaklar",
+      title1: "Veriler",
+      titleHighlight: "nereden geliyor",
+      lead: "Her rakam resmi YouTube kaynakları ve önde gelen yayınlarla doğrulanmıştır.",
+      official: "Resmi",
+      media: "Medya",
+    },
+    footer: {
+      disclaimer: "Resmi olmayan bilgi sitesi. Resmi ve güncel şartlar için YouTube Studio'ya bakın.",
+      copyright: "© 2026 · Resmi YouTube kaynaklarına dayanmaktadır (Ağustos 2026 itibarıyla)",
+    },
+  },
+
+  ar: {
+    nav: {
+      changes: "ما الذي يتغير",
+      compare: "المقارنة",
+      shorts: "Shorts",
+      premium: "Premium",
+      timeline: "التواريخ",
+      faq: "الأسئلة الشائعة",
+      cta: "اعرف المزيد",
+      menu: "القائمة",
+    },
+    hero: {
+      badge: "تدخل التغييرات حيز التنفيذ في 1 فبراير 2027",
+      title1: "قواعد",
+      titleHighlight: "تحقيق الربح من يوتيوب",
+      title2: "الجديدة 2027",
+      subtitle:
+        "أول تغيير كبير في برنامج شركاء يوتيوب منذ 2018: عتبات دخول جديدة، وقواعد جديدة لـ Shorts، وتوسيع Premium Lite، وبرامج مكافآت. نشرح كل شيء — مع روابط للمصادر الأساسية.",
+      cta1: "اعرف المزيد",
+      cta2: "قارن 2026 ← 2027",
+      countdownTitle: "حتى بدء القواعد الجديدة",
+      days: "يوم",
+      hours: "ساعة",
+      minutes: "دقيقة",
+      seconds: "ثانية",
+    },
+    ticker: [
+      "8,000 ساعة — العتبة الجديدة",
+      "20 مليون مشاهدة Shorts",
+      "10 ملايين — Shorts Creator Pool",
+      "Premium Lite 60%",
+      "45% إعلانات مستهدفة",
+      "من 1 فبراير 2027",
+    ],
+    stats: [
+      { value: 8000, prefix: "", suffix: " ساعة", label: "عتبة الدخول الجديدة (كانت 4,000)" },
+      { value: 20, prefix: "", suffix: " مليون", label: "مشاهدة Shorts — العتبة الجديدة (كانت 10 ملايين)" },
+      { value: 10, prefix: "", suffix: " ملايين", label: "مشاهدة Shorts/90 يومًا — الحد الأدنى لـ Creator Pool" },
+      { value: 100, prefix: "$", suffix: "+ مليار", label: "دُفع للمبدعين خلال آخر 4 سنوات" },
+    ],
+    changes: {
+      kicker: "ما الذي يتغير",
+      title1: "أهم التغييرات",
+      titleHighlight: "في لمحة",
+      lead: "ستة تغييرات رئيسية تدخل حيز التنفيذ في 1 فبراير 2027.",
+      items: [
+        { title: "عتبة الدخول تتضاعف", text: "القنوات الجديدة: 8,000 ساعة أو 20 مليون مشاهدة Shorts." },
+        { title: "Shorts: الحد الأدنى 10 ملايين", text: "للربح من Shorts Creator Pool كل شهر." },
+        { title: "Premium Lite في كل مكان", text: "التوسع إلى جميع دول Premium — دخل أكبر." },
+        { title: "45% للإعلانات المستهدفة", text: "إذا اختار المعلن ≤5 قنوات — حصة مباشرة." },
+        { title: "مكافآت جديدة", text: "مكافآت عن Shopping وصفقات العلامات التجارية والاتجاهات." },
+        { title: "المبدعون الحاليون محميون", text: "من هم بالفعل في YPP لا تتأثر بالعتبات الجديدة." },
+      ],
+    },
+    compare: {
+      kicker: "المقارنة",
+      title1: "عتبات الدخول:",
+      titleHighlight: "2026 ← 2027",
+      lead: "تنطبق العتبات الجديدة فقط على المبدعين الجدد المتقدمين إلى YPP للإعلانات وPremium.",
+      colBefore: "قبل 2027",
+      colAfter: "من 1 فبراير 2027",
+      footnote: "يبقى 1,000 مشترك شرطًا في الحالتين.",
+      rows: [
+        { label: "ساعات المشاهدة (365 يومًا)", before: "4,000", after: 8000, afterSuffix: "" },
+        { label: "مشاهدات Shorts (90 يومًا)", before: "10 ملايين", after: 20, afterSuffix: " مليون" },
+        { label: "الحد الأدنى لـ Shorts Creator Pool", before: "—", after: 10, afterSuffix: " ملايين" },
+      ],
+    },
+    shorts: {
+      kicker: "Shorts",
+      title1: "للربح من Shorts —",
+      titleHighlight: "10 ملايين مشاهدة",
+      paragraph:
+        "اعتبارًا من 1 فبراير 2027، للحصول على دخل شهري من Shorts Creator Pool، يجب أن يحافظ القناة على 10 ملايين مشاهدة مؤهلة لـ Shorts خلال آخر 90 يومًا.",
+      bullets: [
+        "تحت العتبة لا تُستبعد من YPP.",
+        "دخل long-form لا يتأثر.",
+        "عند تجاوز 10 ملايين مرة أخرى، يستأنف دخل Shorts تلقائيًا.",
+      ],
+      cardLabel: "مشاهدة Shorts خلال 90 يومًا — الحد الأدنى لـ Creator Pool",
+      threshold: "10 ملايين — العتبة",
+    },
+    premium: {
+      kicker: "Premium Lite",
+      title1: "مشتركون أكثر —",
+      titleHighlight: "دخل أكبر",
+      lead: "توسّع يوتيوب Premium Lite إلى جميع الدول التي يتوفر فيها Premium وتحدّث كيفية توزيع الإيرادات على المبدعين.",
+      litePool: "صندوق Premium Lite",
+      liteText: "من صافي إيرادات اشتراك Premium Lite تُشارك مع المبدعين.",
+      premiumPool: "صندوق Premium",
+      premiumText: "من صافي إيرادات Premium تُشارك مع المبدعين.",
+      targetedTitle: "إعلانات Shorts المستهدفة",
+      targetedText:
+        "إذا استهدف المعلن إعلانًا لـ 5 قنوات أو أقل، يحصل المبدع على 45% من هذه الإيرادات مباشرة — إضافة إلى Creator Pool القياسي.",
+      donutCenter: "55 / 45",
+      donutSub: "long / shorts",
+      legendLong: "55% long-form",
+      legendShorts: "45% Shorts",
+    },
+    bonuses: {
+      kicker: "مكافآت جديدة",
+      title1: "طرق أكثر",
+      titleHighlight: "للربح",
+      lead: "بعيدًا عن الإعلانات، تقدم يوتيوب برامج مكافآت جديدة تكافئ النمو والتفاعل ونماذج الأعمال المتنوعة.",
+      items: [
+        { title: "مكافآت YouTube Shopping", text: "مدفوعات إضافية عن المبيعات عبر Shopping." },
+        { title: "أرصدة إنتاج لصفقات العلامات التجارية", text: "دعم للتعاون مع العلامات التجارية." },
+        { title: "دفعات الاتجاهات الثقافية", text: "دخل عن إطلاق الاتجاهات وتنميتها." },
+      ],
+    },
+    timeline: {
+      kicker: "تواريخ مهمة",
+      title1: "جدول",
+      titleHighlight: "التغييرات",
+      items: [
+        { date: "10 أغسطس 2026", title: "الإعلان", text: "أعلنت يوتيوب أول تغييرات كبيرة في YPP منذ 2018." },
+        { date: "31 يناير 2027", title: "الموعد النهائي", text: "اقبل الشروط الجديدة في YouTube Studio للحفاظ على أرباحك." },
+        { date: "1 فبراير 2027", title: "البدء", text: "تدخل القواعد الجديدة حيز التنفيذ لجميع المبدعين." },
+      ],
+    },
+    affected: {
+      kicker: "من يتأثر",
+      title1: "من تشملهم",
+      titleHighlight: "القواعد الجديدة",
+      newTitle: "المبدعون الجدد",
+      newText: "للانضمام إلى YPP (الإعلانات + Premium) تحتاج الآن إلى: 1,000 مشترك + 8,000 ساعة مشاهدة أو 20 مليون مشاهدة Shorts.",
+      existingTitle: "أعضاء YPP الحاليون",
+      existingText: "لا تتأثر بالعتبات الجديدة. لكن يجب قبول الشروط المحدّثة في YouTube Studio قبل 31 يناير 2027.",
+      activityTitle: "متطلبات النشاط الجديدة",
+      activityText:
+        "تُعد القناة نشطة إذا حققت 1,000 ساعة مشاهدة خلال 365 يومًا، أو مليون مشاهدة Shorts خلال 90 يومًا، أو رفعت مقطعي long-form / 5 مقاطع Shorts كل 90 يومًا.",
+    },
+    faq: {
+      kicker: "الأسئلة الشائعة",
+      title1: "أسئلة",
+      titleHighlight: "شائعة",
+      items: [
+        { q: "من تشملهم عتبات الدخول الجديدة إلى YPP؟", a: "فقط المبدعين الجدد الذين يتقدمون بعد 1 فبراير 2027. يبقى أعضاء YPP الحاليون في البرنامج بغض النظر عن الأرقام الجديدة." },
+        { q: "كم أحتاج الآن للانضمام إلى YPP؟", a: "1,000 مشترك + 8,000 ساعة مشاهدة خلال 365 يومًا أو 20 مليون مشاهدة Shorts خلال 90 يومًا." },
+        { q: "ما الذي يتغير بالنسبة لـ Shorts؟", a: "للربح شهريًا من Shorts Creator Pool، يجب الحفاظ على 10 ملايين مشاهدة Shorts خلال 90 يومًا. تحت العتبة تبقى في YPP وتواصل الربح من long-form." },
+        { q: "ماذا عن Fan Funding وShopping؟", a: "العتبات لا تتغير: 500 مشترك + 3,000 ساعة مشاهدة أو 3 ملايين مشاهدة Shorts خلال 90 يومًا." },
+        { q: "ما هو Premium Lite وكيف يؤثر على الدخل؟", a: "يُوسَّع Premium Lite إلى جميع دول Premium. يتقاسم المبدعون صندوقًا: 60% من صافي إيرادات Premium Lite و30% من Premium؛ التوزيع 55% long-form و45% Shorts." },
+        { q: "ماذا لو لم أقبل الشروط الجديدة قبل 31 يناير 2027؟", a: "من 1 فبراير 2027 ستتوقف عن الربح من ميزات تحقيق الدخل المعنية حتى تقبل الشروط في YouTube Studio. لا يُفقد وضعك في YPP." },
+        { q: "هل يتعلق هذا بتحقيق الربح أم بقواعد المجتمع؟", a: "بتحقيق الربح. التغييرات المعلنة تتعلق ببرنامج شركاء يوتيوب. لم تتغير قواعد المجتمع والمحتوى بهذا الإعلان." },
+      ],
+    },
+    sources: {
+      kicker: "المصادر",
+      title1: "من أين تأتي",
+      titleHighlight: "البيانات",
+      lead: "تم التحقق من كل رقم عبر المصادر الرسمية ليوتيوب والمنشورات الرائدة.",
+      official: "رسمي",
+      media: "إعلام",
+    },
+    footer: {
+      disclaimer: "موقع معلوماتي غير رسمي. راجع YouTube Studio للشروط الرسمية والحالية.",
+      copyright: "© 2026 · استنادًا إلى مصادر يوتيوب الرسمية (حتى أغسطس 2026)",
+    },
+  },
+};
