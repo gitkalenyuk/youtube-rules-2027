@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zombie Apocalypse — 2D Shooter</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --neon:#a3ff12; --blood:#ff2e4d; --panel:rgba(12,18,14,.82);
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{
+    background:radial-gradient(circle at 50% 20%, #16211a 0%, #0a0f0c 60%, #050806 100%);
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    font-family:'Segoe UI', system-ui, sans-serif; color:#dfe9d8;
+    user-select:none; overflow:hidden;
+  }
+  #outer{ width:100%; max-width:1120px; padding:14px; }
+
+  header{ text-align:center; margin-bottom:10px; }
+  header h1{
+    font-family:'Press Start 2P', monospace; font-size:20px; letter-spacing:2px;
+    color:var(--neon); text-shadow:0 0 8px rgba(163,255,18,.75), 0 0 24px rgba(163,255,18,.35);
+  }
+  header p{ font-size:12px; color:#90a88c; margin-top:6px; letter-spacing:1px; }
+
+  #game-wrap{
+    position:relative; width:100%; aspect-ratio:8/5; max-height:74vh;
+    border-radius:18px; overflow:hidden; cursor:none;
+    box-shadow:0 0 0 2px rgba(163,255,18,.25), 0 0 60px rgba(0,0,0,.9), inset 0 0 80px rgba(0,0,0,.55);
+    background:#0b110d;
+  }
+  #game{ width:100%; height:100%; display:block; image-rendering:auto; }
+
+  /* vignette overlay */
+  #vig{
+    position:absolute; inset:0; pointer-events:none; border-radius:18px;
+    background:radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.55) 100%);
+    mix-blend-mode:multiply;
+  }
+
+  /* ---------- HUD ---------- */
+  #hud{
+    position:absolute; inset:0; pointer-events:none; padding:14px 16px;
+    display:flex; flex-direction:column; justify-content:space-between;
+    opacity:0; transition:opacity .4s; z-index:5;
+  }
+  #hud.on{ opacity:1; }
+  .hud-top{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .panel{
+    background:var(--panel); border:1px solid rgba(163,255,18,.25);
+    border-radius:12px; padding:8px 12px; backdrop-filter:blur(4px);
+    box-shadow:0 4px 18px rgba(0,0,0,.5);
+  }
+  .hprow{ display:flex; align-items:center; gap:10px; min-width:240px; }
+  .hprow .lbl{ font-family:'Press Start 2P',monospace; font-size:9px; color:var(--neon); }
+  #healthbar{ flex:1; height:14px; background:#231c1e; border-radius:8px; overflow:hidden; border:1px solid #3a2d31; }
+  #healthfill{ height:100%; width:100%; background:linear-gradient(90deg,#7dff5a,#a3ff12); transition:width .18s; }
+  #healthfill.low{ background:linear-gradient(90deg,#ff4d4d,#ff9a3c); }
+  #hpnum{ font-family:'Press Start 2P',monospace; font-size:10px; color:#fff; min-width:38px; text-align:right; }
+  .centerchip{ text-align:center; }
+  .centerchip .big{ font-family:'Press Start 2P',monospace; font-size:13px; color:#fff; }
+  .centerchip .sub{ font-size:9px; letter-spacing:2px; color:#8fae86; margin-top:4px; }
+  .num{ font-family:'Press Start 2P',monospace; font-size:13px; color:var(--neon); text-shadow:0 0 8px rgba(163,255,18,.5); }
+
+  /* powerup row */
+  #purow{ display:flex; gap:8px; justify-content:center; min-height:34px; margin-top:8px; flex-wrap:wrap; }
+  .pu-chip{
+    font-family:'Press Start 2P',monospace; font-size:9px; padding:6px 10px; border-radius:8px;
+    background:rgba(0,0,0,.5); border:1px solid rgba(255,255,255,.25); color:#fff;
+    animation:puPulse 1s infinite alternate; display:flex; align-items:center; gap:6px;
+  }
+  .pu-chip .t{ color:var(--neon); }
+  @keyframes puPulse{ from{ transform:scale(1);} to{ transform:scale(1.06);} }
+
+  /* weapon panel */
+  #weaponpanel{ display:flex; align-items:flex-end; justify-content:space-between; gap:12px; }
+  #weaponmeta{ display:flex; align-items:center; gap:12px; }
+  #weaponname{ font-family:'Press Start 2P',monospace; font-size:12px; color:#fff; }
+  #ammo{ font-family:'Press Start 2P',monospace; font-size:13px; color:#ffd166; margin-top:4px; }
+  #ammo .empty{ color:var(--blood); }
+  #slots{ display:flex; gap:8px; pointer-events:auto; }
+  .slot{
+    width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+    background:rgba(0,0,0,.55); border:1px solid rgba(255,255,255,.15); color:#9fb39a;
+    font-family:'Press Start 2P',monospace; font-size:9px; text-align:center; line-height:1.3;
+    cursor:pointer; transition:all .15s; padding:4px;
+  }
+  .slot:hover{ border-color:rgba(163,255,18,.6); transform:translateY(-2px); }
+  .slot.owned{ color:#fff; border-color:rgba(163,255,18,.4); }
+  .slot.active{ background:rgba(163,255,18,.18); border-color:var(--neon); box-shadow:0 0 12px rgba(163,255,18,.35); color:var(--neon); }
+  .slot.locked{ opacity:.35; filter:grayscale(1); cursor:default; }
+
+  /* ---------- Overlays ---------- */
+  .overlay{
+    position:absolute; inset:0; z-index:20; border-radius:18px;
+    background:radial-gradient(circle at 50% 35%, rgba(8,14,10,.88), rgba(2,5,3,.96));
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:24px; gap:18px; cursor:default;
+    animation:fadeIn .3s;
+  }
+  @keyframes fadeIn{ from{ opacity:0;} to{ opacity:1;} }
+  .overlay.hidden{ display:none; }
+  .title{ font-family:'Press Start 2P',monospace; font-size:clamp(18px,4vw,34px); line-height:1.5; color:var(--neon); text-shadow:0 0 12px rgba(163,255,18,.8), 0 0 40px rgba(163,255,18,.3); }
+  .subtitle{ font-size:14px; color:#a8bfa0; max-width:520px; line-height:1.7; }
+  .stats{ font-family:'Press Start 2P',monospace; font-size:12px; color:#fff; line-height:2; }
+  .stats span{ color:var(--neon); }
+
+  .controls{
+    background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1);
+    border-radius:14px; padding:14px 22px; font-size:13px; color:#c7d6c1; text-align:left; line-height:2;
+  }
+  .controls b{ color:#fff; }
+  .controls .k{ font-family:'Press Start 2P',monospace; font-size:10px; background:rgba(163,255,18,.12); color:var(--neon); padding:2px 7px; border-radius:6px; border:1px solid rgba(163,255,18,.3); }
+
+  .btn{
+    font-family:'Press Start 2P',monospace; font-size:14px; letter-spacing:1px;
+    padding:16px 42px; border:none; border-radius:14px; cursor:pointer; color:#0c120a;
+    background:linear-gradient(180deg,#c8ff5a,#8fd612); box-shadow:0 0 0 2px rgba(163,255,18,.4), 0 8px 26px rgba(163,255,18,.25);
+    transition:all .15s; margin:0 6px;
+  }
+  .btn:hover{ transform:translateY(-3px) scale(1.04); box-shadow:0 0 0 2px rgba(163,255,18,.7), 0 14px 40px rgba(163,255,18,.4); }
+  .btn:active{ transform:translateY(0) scale(.97); }
+  .btn.red{ background:linear-gradient(180deg,#ff7a8a,#d92e4c); box-shadow:0 0 0 2px rgba(255,46,77,.4), 0 8px 26px rgba(255,46,77,.25); }
+  .btn.red:hover{ box-shadow:0 0 0 2px rgba(255,46,77,.7), 0 14px 40px rgba(255,46,77,.4); }
+
+  /* wave banner */
+  #banner{
+    position:absolute; top:30%; width:100%; text-align:center; z-index:6; pointer-events:none;
+    font-family:'Press Start 2P',monospace; font-size:26px; color:#fff;
+    text-shadow:0 0 14px rgba(163,255,18,.9), 0 0 40px rgba(163,255,18,.5);
+    opacity:0; transform:scale(.7); transition:opacity .3s, transform .3s;
+  }
+  #banner.show{ opacity:1; transform:scale(1); }
+
+  footer{ text-align:center; margin-top:12px; font-size:11px; color:#6c7f68; letter-spacing:.5px; }
+</style>
+</head>
+<body>
+<div id="outer">
+  <header>
+    <h1>💀 ZOMBIE APOCALYPSE</h1>
+    <p>виживи — скільки зможеш</p>
+  </header>
+
+  <div id="game-wrap">
+    <canvas id="game" width="960" height="600"></canvas>
+    <div id="vig"></div>
+
+    <!-- HUD -->
+    <div id="hud">
+      <div class="hud-top">
+        <div class="panel hprow">
+          <span class="lbl">HP</span>
+          <div id="healthbar"><div id="healthfill"></div></div>
+          <span id="hpnum">100</span>
+        </div>
+        <div class="panel centerchip">
+          <div class="big" id="waveval">1</div>
+          <div class="sub">ХВИЛЯ</div>
+        </div>
+        <div class="panel centerchip">
+          <div class="num" id="scoreval">0</div>
+          <div class="sub">РАХУНОК &nbsp;·&nbsp; <span id="killsval">0</span> ВБИВСТВ</div>
+        </div>
+      </div>
+
+      <div>
+        <div id="purow"></div>
+        <div class="panel" id="weaponpanel">
+          <div id="weaponmeta">
+            <div>
+              <div id="weaponname">ПІСТОЛЕТ</div>
+              <div id="ammo"><span id="magval">12</span> / ∞</div>
+            </div>
+          </div>
+          <div id="slots"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="banner"></div>
+
+    <!-- MENU -->
+    <div class="overlay" id="overlay-menu">
+      <div class="title">ZOMBIE<br>APOCALYPSE</div>
+      <div class="subtitle">Хвилі зомбі все ближче. Збирай зброю і павер-апи, тримай оборону і не дай їм тебе з'їсти.</div>
+      <div class="controls">
+        <b>WASD / стрілки</b> — рух &nbsp;·&nbsp; <b>миша</b> — приціл / постріл<br>
+        <span class="k">1-5</span> або колесо — зброя &nbsp;·&nbsp; <span class="k">R</span> — перезарядка &nbsp;·&nbsp; <span class="k">P</span> — пауза
+      </div>
+      <button class="btn" id="btn-start">СТАРТ ▶</button>
+    </div>
+
+    <!-- PAUSE -->
+    <div class="overlay hidden" id="overlay-pause">
+      <div class="title" style="color:#fff">ПАУЗА</div>
+      <div>
+        <button class="btn" id="btn-resume">ПРОДОВЖИТИ ▶</button>
+        <button class="btn red" id="btn-restart1">СПОЧАТКУ</button>
+      </div>
+    </div>
+
+    <!-- GAME OVER -->
+    <div class="overlay hidden" id="overlay-gameover">
+      <div class="title" style="color:var(--blood)">ТИ ЗАГИНУВ</div>
+      <div class="stats">
+        РАХУНОК: <span id="final-score">0</span><br>
+        ХВИЛЯ: <span id="final-wave">1</span> &nbsp;·&nbsp; ВБИВСТВА: <span id="final-kills">0</span>
+      </div>
+      <button class="btn" id="btn-restart2">ГРАТИ ЗНОВУ ↻</button>
+    </div>
+  </div>
+
+  <footer>2D шутер · canvas + vanilla JS · зроблено для тебе</footer>
+</div>
+
+<script>
+'use strict';
+/* ============================================================
+   ZOMBIE APOCALYPSE — 2D shooter
+   Vanilla JS + Canvas. Структура:
+   - Стани гри (меню / гра / пауза / програш)
+   - Гравeць, зброя (5 видів з прогресією), магазини
+   - Зомбі: walker / runner / brute, хвилі зі спавном
+   - Павер-апи: лікування, щит, швидкість, урон, швидкостр.,
+     ядерний вибух, ящики зі зброєю
+   - Частинки (кров, спалахи), декалі крові, тексти, струс
+   - Звуки через WebAudio (генеруються, без файлів)
+   ============================================================ */
+
+/* ---------- константи та хелпери ---------- */
+const CW = 960, CH = 600;
+const TAU = Math.PI * 2;
+const $ = id => document.getElementById(id);
+const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+const rand = (a,b) => a + Math.random()*(b-a);
+const irand = (a,b) => Math.floor(rand(a, b+1));
+const dist2 = (ax,ay,bx,by) => { const dx=ax-bx, dy=ay-by; return dx*dx+dy*dy; };
+
+const canvas = $('game');
+const ctx = canvas.getContext('2d');
+
+/* ---------- стани ---------- */
+const STATE = { MENU:0, PLAY:1, PAUSE:2, OVER:3 };
+let state = STATE.MENU;
+
+/* ---------- зброя ---------- */
+const WEAPONS = [
+  { name:'ПІСТОЛЕТ', short:'PST', dmg:22, rof:280, mag:12, reload:900,  spread:0.05, speed:660, pellets:1, auto:false, len:26, thick:5, color:'#ffd166' },
+  { name:'SMG',      short:'SMG', dmg:11, rof:95,  mag:34, reload:1400, spread:0.13, speed:720, pellets:1, auto:true,  len:27, thick:5, color:'#4cc9f0' },
+  { name:'ДРОБОВИК', short:'SG',  dmg:10, rof:850, mag:6,  reload:1800, spread:0.30, speed:560, pellets:7, auto:false, len:34, thick:6, color:'#f72585' },
+  { name:'ГВИНТІВКА',short:'RFL', dmg:30, rof:170, mag:24, reload:1600, spread:0.04, speed:820, pellets:1, auto:true,  len:40, thick:4, color:'#80ed99' },
+  { name:'МІНІГАН',  short:'MG',  dmg:9,  rof:55,  mag:100, reload:2400, spread:0.18, speed:740, pellets:1, auto:true,  len:36, thick:8, color:'#ff9e00' },
+];
+let owned = [true, false, false, false, false]; // прогресія зброї
+
+/* ---------- гравець ---------- */
+const player = {
+  x:CW/2, y:CH/2, r:15, hp:100, maxHp:100,
+  speed:235, kx:0, ky:0, aim:0,
+  wi:0, mag:[12,0,0,0,0], fireT:0, reloadT:0,
+  flashT:0, hurtT:0,
+  pu:{ speed:0, dmg:0, rapid:0, shield:0 }
+};
+
+/* ---------- масиви сутностей ---------- */
+let zombies = [], bullets = [], particles = [], pickups = [], floaters = [], decals = [];
+let score = 0, kills = 0, waveNum = 0, spawnLeft = 0, spawnTimer = 0, waveDelay = 0;
+let shake = 0;
+let menuSpawnT = 0;
+let mouse = false, fireQueued = false;
+let mx = CW/2, my = CH/2;
+
+/* ---------- звук (WebAudio) ---------- */
+let ac = null;
+function audio(){
+  if(!ac){ try{ ac = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} }
+  if(ac && ac.state === 'suspended') ac.resume();
+}
+function tone(f, dur, type, vol, slide){
+  if(!ac) return;
+  try{
+    const o = ac.createOscillator(), g = ac.createGain();
+    o.type = type || 'square';
+    o.frequency.setValueAtTime(f, ac.currentTime);
+    if(slide) o.frequency.exponentialRampToValueAtTime(Math.max(30,slide), ac.currentTime+dur);
+    g.gain.setValueAtTime(vol||0.08, ac.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime+dur);
+    o.connect(g); g.connect(ac.destination);
+    o.start(); o.stop(ac.currentTime+dur);
+  }catch(e){}
+}
+function sndShoot(w){
+  if(w.pellets > 3){ tone(140,0.14,'sawtooth',0.1,60); tone(70,0.18,'square',0.08,40); }
+  else if(w.rof < 90){ tone(520,0.08,'square',0.06,180); }
+  else { tone(720,0.06,'square',0.05,220); }
+}
+function sndHit(){ tone(160,0.06,'triangle',0.05,80); }
+function sndHurt(){ tone(90,0.25,'sawtooth',0.13,45); }
+function sndPickup(){ tone(660,0.09,'sine',0.1,880); tone(990,0.12,'sine',0.08,1320); }
+function sndWave(){ tone(220,0.25,'sawtooth',0.12,440); tone(440,0.3,'sawtooth',0.1,660); }
+function sndEmpty(){ tone(300,0.05,'square',0.05,200); }
+function sndReload(){ tone(240,0.08,'square',0.06,180); setTimeout(()=>tone(300,0.08,'square',0.06,220),180); }
+function sndNuke(){ tone(60,0.6,'sawtooth',0.2,25); tone(120,0.5,'square',0.12,40); }
+
+/* ---------- HUD посилання ---------- */
+const elHUD=$('hud'), elHPfill=$('healthfill'), elHpnum=$('hpnum'),
+      elWave=$('waveval'), elScore=$('scoreval'), elKills=$('killsval'),
+      elWeapon=$('weaponname'), elMag=$('magval'), elSlots=$('slots');
+
+/* ---------- побудова слотів зброї ---------- */
+WEAPONS.forEach((w,i)=>{
+  const s=document.createElement('div');
+  s.className='slot'+(owned[i]?' owned':' locked')+(i===player.wi?' active':'');
+  s.textContent=w.short;
+  s.dataset.i=i;
+  s.addEventListener('click',()=>{ audio(); selectWeapon(i); });
+  elSlots.appendChild(s);
+});
+const slotEls=[...elSlots.children];
+
+/* ---------- вибір зброї ---------- */
+function selectWeapon(i){
+  if(!owned[i]) return;
+  player.wi=i;
+  updateSlotUI();
+}
+function updateSlotUI(){
+  slotEls.forEach((s,i)=>{
+    s.classList.toggle('owned',owned[i]);
+    s.classList.toggle('locked',!owned[i]);
+    s.classList.toggle('active',i===player.wi);
+  });
+  const w=WEAPONS[player.wi];
+  elWeapon.textContent=w.name;
+  elMag.textContent=player.mag[player.wi];
+  elMag.classList.toggle('empty',player.mag[player.wi]===0);
+}
+
+/* ---------- скидання гри ---------- */
+function resetGame(){
+  player.x=CW/2; player.y=CH/2; player.hp=player.maxHp;
+  player.kx=0; player.ky=0; player.aim=0; player.wi=0;
+  player.fireT=0; player.reloadT=0; player.flashT=0; player.hurtT=0;
+  player.pu={ speed:0, dmg:0, rapid:0, shield:0 };
+  owned=[true,false,false,false,false];
+  player.mag=[WEAPONS[0].mag,0,0,0,0];
+  zombies=[]; bullets=[]; particles=[]; pickups=[]; floaters=[]; decals=[];
+  score=0; kills=0; waveNum=0; spawnLeft=0; spawnTimer=0; waveDelay=0; shake=0;
+  updateSlotUI(); updateHUD();
+}
+
+/* ---------- старт / пауза / кінець ---------- */
+function startGame(){
+  audio(); resetGame(); state=STATE.PLAY;
+  $('overlay-menu').classList.add('hidden');
+  $('overlay-gameover').classList.add('hidden');
+  $('overlay-pause').classList.add('hidden');
+  elHUD.classList.add('on');
+  startWave();
+}
+function togglePause(){
+  if(state===STATE.PLAY){ state=STATE.PAUSE; $('overlay-pause').classList.remove('hidden'); }
+  else if(state===STATE.PAUSE){ state=STATE.PLAY; $('overlay-pause').classList.add('hidden'); }
+}
+function gameOver(){
+  state=STATE.OVER;
+  $('final-score').textContent=score;
+  $('final-wave').textContent=Math.max(1,waveNum);
+  $('final-kills').textContent=kills;
+  $('overlay-gameover').classList.remove('hidden');
+}
+$('btn-start').addEventListener('click',startGame);
+$('btn-restart1').addEventListener('click',()=>{ $('overlay-pause').classList.add('hidden'); startGame(); });
+$('btn-restart2').addEventListener('click',startGame);
+$('btn-resume').addEventListener('click',togglePause);
+addEventListener('keydown',e=>{
+  audio();
+  if(e.code==='KeyP'){ togglePause(); return; }
+  if(state!==STATE.PLAY) return;
+  if(e.code==='KeyR') tryReload();
+  const m=/^Digit([1-9])$/.exec(e.code);
+  if(m){ const i=+m[1]-1; if(i<WEAPONS.length) selectWeapon(i); }
+  if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code)) e.preventDefault();
+});
+
+/* ---------- хвилі ---------- */
+function startWave(){
+  waveNum++;
+  const total=Math.min(4+waveNum*3,70);
+  spawnLeft=total; spawnTimer=350;
+  showBanner('ХВИЛЯ '+waveNum);
+  sndWave();
+}
+function showBanner(txt){
+  const b=$('banner'); b.textContent=txt;
+  b.classList.add('show');
+  setTimeout(()=>b.classList.remove('show'),1800);
+}
+function waveComposition(){
+  const r=Math.random();
+  if(waveNum>=4 && r>0.86) return 'brute';
+  if(waveNum>=2 && r<0.22) return 'runner';
+  return 'walker';
+}
+function spawnZombie(type){
+  const p=edgePoint();
+  const hpMul=1+(waveNum-1)*0.09;
+  let z;
+  if(type==='runner'){
+    z={x:p.x,y:p.y,r:13,hp:24*hpMul,maxHp:24*hpMul,speed:rand(120,150),type:'runner',score:15,atkCd:0,hitCd:0,kx:0,ky:0,phase:rand(0,TAU),armAng:0,color:'#a7c957',ring:'#6a7f2a',dmg:6};
+  } else if(type==='brute'){
+    z={x:p.x,y:p.y,r:27,hp:240*hpMul,maxHp:240*hpMul,speed:rand(36,48),type:'brute',score:40,atkCd:0,hitCd:0,kx:0,ky:0,phase:rand(0,TAU),armAng:0,color:'#9d4edd',ring:'#5a189a',dmg:18};
+  } else {
+    z={x:p.x,y:p.y,r:16,hp:42*hpMul,maxHp:42*hpMul,speed:rand(55,82),type:'walker',score:10,atkCd:0,hitCd:0,kx:0,ky:0,phase:rand(0,TAU),armAng:0,color:'#6a994e',ring:'#386641',dmg:8};
+  }
+  z.wander=(state===STATE.MENU);
+  z.wanderT=0; z.offT=0; z.target={x:rand(120,CW-120),y:rand(120,CH-120)};
+  zombies.push(z);
+}
+function edgePoint(){
+  const s=irand(0,3);
+  switch(s){
+    case 0: return {x:rand(-50,-12), y:rand(0,CH)};
+    case 1: return {x:rand(CW+12,CW+50), y:rand(0,CH)};
+    case 2: return {x:rand(0,CW), y:rand(-50,-12)};
+    default: return {x:rand(0,CW), y:rand(CH+12,CH+50)};
+  }
+}
+
+/* ---------- павер-апи ---------- */
+const PU_TYPES=[
+  {id:'health', icon:'+',   label:'+35 HP', color:'#2dd4bf'},
+  {id:'speed',  icon:'⚡', label:'ШВИДКІСТЬ', color:'#facc15'},
+  {id:'dmg',    icon:'💢', label:'УРОН ×2', color:'#fb7185'},
+  {id:'rapid',  icon:'🔥', label:'ШВИДКОСТР.', color:'#f97316'},
+  {id:'shield', icon:'🛡', label:'ЩИТ', color:'#60a5fa'},
+  {id:'nuke',   icon:'☢', label:'ЯДЕРНИЙ!', color:'#a78bfa'},
+  {id:'crate',  icon:'📦', label:'ЗБРОЯ!', color:'#eab308'},
+];
+function dropPickup(x,y){
+  const r=Math.random();
+  let id;
+  if(r<0.24) id='health';
+  else if(r<0.38) id='speed';
+  else if(r<0.52) id='dmg';
+  else if(r<0.66) id='rapid';
+  else if(r<0.79) id='shield';
+  else if(r<0.86) id='nuke';
+  else id='crate';
+  pickups.push({x,y,t:rand(0,TAU),id});
+}
+function applyPickup(pk){
+  const p=player;
+  switch(pk.id){
+    case 'health': p.hp=clamp(p.hp+35,0,p.maxHp); break;
+    case 'speed':  p.pu.speed=6; break;
+    case 'dmg':    p.pu.dmg=7; break;
+    case 'rapid':  p.pu.rapid=7; break;
+    case 'shield':  p.pu.shield=6; break;
+    case 'nuke':   nuke(); break;
+    case 'crate': {
+      const locked=owned.map((o,i)=>o? -1:i).filter(i=>i>=0);
+      if(locked.length){ const i=locked[irand(0,locked.length-1)]; owned[i]=true; player.mag[i]=WEAPONS[i].mag; floatText(pk.x,pk.y,'+ '+WEAPONS[i].name,'#ffd166'); }
+      else { p.hp=clamp(p.hp+25,0,p.maxHp); WEAPONS.forEach((w,i)=>player.mag[i]=w.mag); floatText(pk.x,pk.y,'ПОВНЕ ПЕРЕЗАРЯДЖЕННЯ','#ffd166'); }
+      updateSlotUI(); break;
+    }
+  }
+  if(pk.id!=='crate') floatText(pk.x,pk.y,PU_TYPES.find(t=>t.id===pk.id).label,'#fff');
+  sndPickup();
+}
+function nuke(){
+  const mult=1+(player.pu.dmg>0?1:0);
+  for(const z of zombies){ damageZombie(z,300*mult,0,0,true); }
+  shake=28; flashScreen(1);
+  sndNuke();
+  for(let i=0;i<60;i++){
+    const a=rand(0,TAU), d=rand(0,340);
+    spawnParticle(player.x+Math.cos(a)*d, player.y+Math.sin(a)*d, rand(-120,120), rand(-120,120), rand(0.3,0.8), rand(2,5), '#a78bfa');
+  }
+}
+function flashScreen(amt){ screenFlash=Math.max(screenFlash,amt); }
+let screenFlash=0, screenFlashColor='255,255,255';
+
+/* ---------- частинки / тексти / декалі ---------- */
+function spawnParticle(x,y,vx,vy,life,size,color){
+  particles.push({x,y,vx,vy,life,maxLife:life,size,color});
+}
+function blood(x,y,dir,n){
+  for(let i=0;i<n;i++){
+    const sp=rand(40,220);
+    spawnParticle(x,y,Math.cos(dir+rand(-0.9,0.9))*sp, Math.sin(dir+rand(-0.9,0.9))*sp, rand(0.25,0.7), rand(2,5), '#b3122e');
+  }
+  decals.push({x:clamp(x,5,CW-5), y:clamp(y,5,CH-5), r:rand(6,16), a:0.5});
+}
+function floatText(x,y,txt,color){
+  floaters.push({x,y,txt,color,t:1});
+}
+
+/* ---------- зомбі: урон і смерть ---------- */
+function damageZombie(z,dmg,knockDir,knockPow,silent){
+  if(z.hp<=0) return;
+  z.hp-=dmg;
+  z.hitCd=0.09;
+  if(knockPow){ z.kx+=Math.cos(knockDir)*knockPow; z.ky+=Math.sin(knockDir)*knockPow; }
+  if(z.hp<=0){
+    const i=zombies.indexOf(z);
+    if(i>=0) zombies.splice(i,1);
+    blood(z.x,z.y,rand(0,TAU),z.type==='brute'?22:12);
+    score+=z.score; kills++;
+    if(Math.random()<0.10) dropPickup(z.x,z.y);
+    return;
+  }
+  if(!silent) sndHit();
+}
+
+/* ---------- перезарядка ---------- */
+function tryReload(){
+  const w=WEAPONS[player.wi];
+  if(player.reloadT<=0 && player.mag[player.wi]<w.mag){
+    player.reloadT=w.reload; sndReload();
+  }
+}
+
+/* ---------- постріл ---------- */
+function tryFire(){
+  const p=player, w=WEAPONS[p.wi];
+  if(p.reloadT>0) return;
+  if(p.mag[p.wi]<=0){ if(p.fireT<=0){ sndEmpty(); p.fireT=260; } tryReload(); return; }
+  const rapid=p.pu.rapid>0;
+  if(p.fireT>0) return;
+  p.fireT=w.rof*(rapid?0.55:1);
+  p.mag[p.wi]--;
+  p.flashT=0.06;
+  const mult=1+(p.pu.dmg>0?1:0);
+  const tipX=p.x+Math.cos(p.aim)*(w.len+8);
+  const tipY=p.y+Math.sin(p.aim)*(w.len+8);
+  const shotSpread=w.spread*(rapid?1.25:1)+0.012*Math.hypot(mx-p.x,my-p.y)/120;
+  for(let i=0;i<w.pellets;i++){
+    const a=p.aim+rand(-shotSpread,shotSpread);
+    const sp=rand(w.speed*0.9,w.speed*1.1);
+    bullets.push({x:tipX,y:tipY,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:0.9,dmg:w.dmg*mult,size:w.pellets>3?3:2,color:w.color});
+  }
+  // віддача персонажа
+  p.kx-=Math.cos(p.aim)*w.pellets*2.2;
+  p.ky-=Math.sin(p.aim)*w.pellets*2.2;
+  // спалах
+  spawnParticle(tipX,tipY,Math.cos(p.aim)*150,Math.sin(p.aim)*150,0.06,8,'#fff');
+  sndShoot(w);
+  if(rapid && Math.random()<0.3) spawnParticle(tipX,tipY,rand(-60,60),rand(-60,60),0.25,3,'#ff9e00');
+}
+
+/* ---------- введення ---------- */
+const keys={};
+addEventListener('keydown',e=>keys[e.code]=true);
+addEventListener('keyup',e=>keys[e.code]=false);
+canvas.addEventListener('mousemove',e=>{
+  const r=canvas.getBoundingClientRect();
+  mx=(e.clientX-r.left)*(CW/r.width);
+  my=(e.clientY-r.top)*(CH/r.height);
+});
+canvas.addEventListener('mousedown',e=>{ if(e.button===0){ audio(); mouse=true; fireQueued=true; } });
+addEventListener('mouseup',e=>{ if(e.button===0) mouse=false; });
+canvas.addEventListener('contextmenu',e=>e.preventDefault());
+canvas.addEventListener('wheel',e=>{
+  e.preventDefault();
+  const dir=e.deltaY>0?1:-1;
+  let i=player.wi, tried=0;
+  do{ i=(i+dir+WEAPONS.length)%WEAPONS.length; tried++; }while(!owned[i] && tried<WEAPONS.length);
+  if(owned[i]) selectWeapon(i);
+},{passive:false});
+
+/* ---------- оновлення гри ---------- */
+function update(dt){
+  // таймери
+  player.fireT-=dt*1000; player.flashT-=dt;
+  if(player.reloadT>0){ player.reloadT-=dt*1000; if(player.reloadT<=0){ player.mag[player.wi]=WEAPONS[player.wi].mag; updateSlotUI(); } }
+  player.hurtT-=dt;
+  for(const k in player.pu){ if(player.pu[k]>0) player.pu[k]-=dt; }
+  shake*=Math.pow(0.001,dt); if(shake<0.1) shake=0;
+  screenFlash*=Math.pow(0.02,dt); if(screenFlash<0.01) screenFlash=0;
+
+  // хвилі
+  if(waveDelay>0){
+    waveDelay-=dt*1000;
+    if(waveDelay<=0) startWave();
+  } else if(spawnLeft>0){
+    spawnTimer-=dt*1000;
+    if(spawnTimer<=0){
+      spawnZombie(waveComposition()); spawnLeft--;
+      spawnTimer=Math.max(250, 1200 - waveNum*70) * rand(0.7,1.2);
+    }
+  } else if(zombies.length===0 && state===STATE.PLAY){
+    waveDelay=2600;
+    showBanner('ХВИЛЯ ПРОЙДЕНА ✓');
+    score+=250;
+    floatText(player.x,player.y-40,'+250','#a3ff12');
+  }
+
+  // рух гравця
+  const p=player;
+  let ix=0, iy=0;
+  if(keys.KeyW||keys.ArrowUp) iy-=1;
+  if(keys.KeyS||keys.ArrowDown) iy+=1;
+  if(keys.KeyA||keys.ArrowLeft) ix-=1;
+  if(keys.KeyD||keys.ArrowRight) ix+=1;
+  const il=Math.hypot(ix,iy)||1;
+  const wNow=WEAPONS[p.wi];
+  const slow=(wNow.short==='MG')?0.7:1;
+  const spd=p.speed*slow*(p.pu.speed>0?1.5:1);
+  p.x+= (ix/il)*spd*dt + p.kx*dt;
+  p.y+= (iy/il)*spd*dt + p.ky*dt;
+  p.x=clamp(p.x,20,CW-20); p.y=clamp(p.y,20,CH-20);
+  p.kx*=Math.pow(0.002,dt); p.ky*=Math.pow(0.002,dt);
+
+  // приціл
+  p.aim=Math.atan2(my-p.y, mx-p.x);
+
+  // стрільба
+  if(state===STATE.PLAY){
+    if(fireQueued){ tryFire(); fireQueued=false; }
+    if(mouse && wNow.auto) tryFire();
+    if(mouse && !wNow.auto && fireQueued) fireQueued=false;
+    // автоперезарядка при порожньому магазині
+    if(p.mag[p.wi]===0 && p.reloadT<=0) tryReload();
+  }
+
+  // кулі
+  for(let i=bullets.length-1;i>=0;i--){
+    const b=bullets[i];
+    b.x+=b.vx*dt; b.y+=b.vy*dt; b.life-=dt;
+    let dead=b.life<=0 || b.x<-30 || b.x>CW+30 || b.y<-30 || b.y>CH+30;
+    if(!dead){
+      for(const z of zombies){
+        const rr=z.r+b.size+3;
+        if(dist2(b.x,b.y,z.x,z.y)<rr*rr){
+          const d=Math.atan2(z.y-b.y,z.x-b.x);
+          damageZombie(z,b.dmg,d,140,false);
+          blood(b.x,b.y,d,4);
+          dead=true; break;
+        }
+      }
+    }
+    if(dead) bullets.splice(i,1);
+  }
+
+  // зомбі
+  updateZombies(dt);
+
+  // павер-апи
+  for(let i=pickups.length-1;i>=0;i--){
+    const pk=pickups[i];
+    pk.t+=dt;
+    const d=Math.hypot(p.x-pk.x,p.y-pk.y);
+    if(d<36){ applyPickup(pk); pickups.splice(i,1); continue; }
+    if(d<90){ pk.x+=(p.x-pk.x)/d*180*dt; pk.y+=(p.y-pk.y)/d*180*dt; }
+  }
+
+  // частинки
+  for(let i=particles.length-1;i>=0;i--){
+    const pt=particles[i];
+    pt.life-=dt;
+    pt.x+=pt.vx*dt; pt.y+=pt.vy*dt;
+    pt.vx*=Math.pow(0.2,dt); pt.vy*=Math.pow(0.2,dt);
+    if(pt.life<=0) particles.splice(i,1);
+  }
+  // тексти
+  for(let i=floaters.length-1;i>=0;i--){
+    const f=floaters[i]; f.t-=dt*0.8; f.y-=34*dt;
+    if(f.t<=0) floaters.splice(i,1);
+  }
+  // декалі
+  for(let i=decals.length-1;i>=0;i--){
+    decals[i].a-=dt*0.15;
+    if(decals[i].a<=0) decals.splice(i,1);
+  }
+  // HUD
+  updateHUD();
+}
+
+function updateZombies(dt){
+  const p=player;
+  const sepR=30;
+  for(const z of zombies){
+    z.phase+=dt*6;
+    z.hitCd-=dt; z.atkCd-=dt;
+    z.kx*=Math.pow(0.1,dt); z.ky*=Math.pow(0.1,dt);
+    let tx,ty;
+    if(z.wander){
+      z.wanderT-=dt;
+      if(z.wanderT<=0){ z.wanderT=rand(1.5,3); z.target={x:rand(80,CW-80),y:rand(80,CH-80)}; }
+      tx=z.target.x; ty=z.target.y;
+      // перевірка чи далеко від екрана
+      if(z.x<-80||z.x>CW+80||z.y<-80||z.y>CH+80){ z.offT+=dt; } else z.offT=0;
+      if(z.offT>2.5){ const i=zombies.indexOf(z); if(i>=0) zombies.splice(i,1); continue; }
+    } else {
+      tx=p.x; ty=p.y;
+    }
+    const dx=tx-z.x, dy=ty-z.y;
+    const d=Math.hypot(dx,dy)||1;
+    const ang=Math.atan2(dy,dx);
+    z.armAng+=(ang-z.armAng)*0.15;
+    // рух
+    z.x+=(dx/d)*z.speed*dt + z.kx*dt;
+    z.y+=(dy/d)*z.speed*dt + z.ky*dt;
+
+    // атака (тільки в грі)
+    if(!z.wander && z.atkCd<=0 && p.pu.shield<=0){
+      if(d < z.r+p.r+6){
+        z.atkCd = z.type==='brute'?0.9:0.7;
+        p.hp-=z.dmg;
+        p.hurtT=0.35;
+        const kb=z.type==='brute'?340:200;
+        p.kx+=Math.cos(ang)*kb; p.ky+=Math.sin(ang)*kb;
+        shake+=8; sndHurt();
+        blood(p.x,p.y,ang+Math.PI,8);
+        if(p.hp<=0){ p.hp=0; gameOver(); return; }
+      }
+    }
+  }
+  // розштовхування зомбі
+  for(let i=0;i<zombies.length;i++){
+    for(let j=i+1;j<zombies.length;j++){
+      const a=zombies[i], b=zombies[j];
+      const dx=b.x-a.x, dy=b.y-a.y;
+      const rr=a.r+b.r;
+      const d2=dx*dx+dy*dy;
+      if(d2<rr*rr && d2>0.01){
+        const d=Math.sqrt(d2), push=(rr-d)/2;
+        const nx=dx/d, ny=dy/d;
+        a.x-=nx*push; a.y-=ny*push;
+        b.x+=nx*push; b.y+=ny*push;
+      }
+    }
+  }
+  // зомбі можуть штовхати гравця
+  for(const z of zombies){
+    const d=Math.hypot(p.x-z.x,p.y-z.y);
+    if(d<z.r+p.r+2 && d>0.01){
+      const push=(z.r+p.r+2-d)*0.4;
+      p.x+=(p.x-z.x)/d*push; p.y+=(p.y-z.y)/d*push;
+    }
+  }
+}
+
+function updateHUD(){
+  const p=player;
+  elHPfill.style.width=Math.max(0,p.hp/p.maxHp*100)+'%';
+  elHPfill.classList.toggle('low',p.hp/p.maxHp<0.35);
+  elHpnum.textContent=Math.max(0,Math.round(p.hp));
+  elWave.textContent=Math.max(1,waveNum);
+  elScore.textContent=score;
+  elKills.textContent=kills;
+  elMag.textContent=p.mag[p.wi];
+  elMag.classList.toggle('empty',p.mag[p.wi]===0);
+  // павер-апи індикатори
+  const row=$('purow');
+  row.innerHTML='';
+  const active=[];
+  const pDefs={speed:['⚡','ШВИДКІСТЬ'],dmg:['💢','УРОН ×2'],rapid:['🔥','ШВИДКОСТР.'],shield:['🛡','ЩИТ']};
+  for(const k in pDefs){ if(p.pu[k]>0) active.push([k,pDefs[k][0],pDefs[k][1],p.pu[k]]); }
+  for(const [k,ic,lbl,time] of active){
+    const chip=document.createElement('div');
+    chip.className='pu-chip';
+    chip.innerHTML=ic+' '+lbl+' <span class="t">'+Math.ceil(time)+'с</span>';
+    row.appendChild(chip);
+  }
+}
+
+/* ---------- малювання ---------- */
+// фонова текстура
+const patCanvas=document.createElement('canvas'); patCanvas.width=patCanvas.height=90;
+{
+  const c=patCanvas.getContext('2d');
+  c.fillStyle='#0d140f'; c.fillRect(0,0,90,90);
+  for(let i=0;i<70;i++){
+    c.fillStyle=`rgba(${irand(40,90)},${irand(70,110)},${irand(40,70)},0.18)`;
+    c.fillRect(rand(0,90),rand(0,90),rand(1,3),rand(1,3));
+  }
+}
+const pat=ctx.createPattern(patCanvas,'repeat');
+
+function render(){
+  ctx.clearRect(0,0,CW,CH);
+
+  // струс екрана
+  ctx.save();
+  if(shake>0) ctx.translate(rand(-shake,shake)*0.4, rand(-shake,shake)*0.4);
+
+  // фон
+  ctx.fillStyle='#0d140f'; ctx.fillRect(-10,-10,CW+20,CH+20);
+  ctx.fillStyle=pat; ctx.fillRect(-10,-10,CW+20,CH+20);
+  // сітка
+  ctx.strokeStyle='rgba(130,180,120,0.045)'; ctx.lineWidth=1;
+  ctx.beginPath();
+  for(let x=40;x<CW;x+=40){ ctx.moveTo(x,0); ctx.lineTo(x,CH); }
+  for(let y=40;y<CH;y+=40){ ctx.moveTo(0,y); ctx.lineTo(CW,y); }
+  ctx.stroke();
+
+  // декалі крові
+  for(const d of decals){
+    ctx.globalAlpha=clamp(d.a,0,0.5);
+    ctx.fillStyle='#6d0f20';
+    ctx.beginPath(); ctx.arc(d.x,d.y,d.r,0,TAU); ctx.fill();
+  }
+  ctx.globalAlpha=1;
+
+  // павер-апи
+  drawPickups();
+
+  // зомбі
+  for(const z of zombies) drawZombie(z);
+
+  // гравець
+  if(state!==STATE.MENU) drawPlayer();
+
+  // кулі
+  for(const b of bullets) drawBullet(b);
+
+  // частинки
+  for(const pt of particles){
+    const a=clamp(pt.life/pt.maxLife,0,1);
+    ctx.globalAlpha=a;
+    ctx.fillStyle=pt.color;
+    ctx.fillRect(pt.x-pt.size/2,pt.y-pt.size/2,pt.size,pt.size);
+  }
+  ctx.globalAlpha=1;
+
+  // тексти
+  for(const f of floaters){
+    ctx.globalAlpha=clamp(f.t,0,1);
+    ctx.font='bold 15px "Segoe UI",sans-serif';
+    ctx.textAlign='center';
+    ctx.fillStyle='rgba(0,0,0,0.6)';
+    ctx.fillText(f.txt,f.x+1,f.y+1);
+    ctx.fillStyle=f.color;
+    ctx.fillText(f.txt,f.x,f.y);
+  }
+  ctx.globalAlpha=1;
+
+  // спалах екрана (ядерний / урон)
+  if(screenFlash>0){
+    ctx.globalAlpha=clamp(screenFlash,0,0.85);
+    ctx.fillStyle=`rgba(${screenFlashColor},${screenFlash})`;
+    ctx.fillRect(-10,-10,CW+20,CH+20);
+    ctx.globalAlpha=1;
+  }
+
+  ctx.restore();
+
+  // приціл
+  if(state===STATE.PLAY){
+    ctx.strokeStyle='rgba(163,255,18,0.9)'; ctx.lineWidth=2; ctx.lineCap='round';
+    ctx.beginPath();
+    ctx.arc(mx,my,8,0,TAU); ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(mx-14,my); ctx.lineTo(mx-5,my);
+    ctx.moveTo(mx+5,my); ctx.lineTo(mx+14,my);
+    ctx.moveTo(mx,my-14); ctx.lineTo(mx,my-5);
+    ctx.moveTo(mx,my+5); ctx.lineTo(mx,my+14);
+    ctx.stroke();
+    ctx.fillStyle='rgba(163,255,18,0.9)';
+    ctx.fillRect(mx-1,my-1,2,2);
+  }
+}
+
+function drawPickups(){
+  for(const pk of pickups){
+    const def=PU_TYPES.find(t=>t.id===pk.id);
+    const bob=Math.sin(pk.t*4)*3;
+    ctx.save();
+    ctx.translate(pk.x,pk.y+bob);
+    ctx.fillStyle='rgba(0,0,0,0.35)';
+    ctx.beginPath(); ctx.ellipse(0,10,10,4,0,0,TAU); ctx.fill();
+    // світіння
+    const g=ctx.createRadialGradient(0,0,2,0,0,16);
+    g.addColorStop(0,def.color+'66'); g.addColorStop(1,'transparent');
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(0,0,16,0,TAU); ctx.fill();
+    // корпус
+    ctx.fillStyle='rgba(10,16,12,0.9)';
+    ctx.strokeStyle=def.color; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.arc(0,0,11,0,TAU); ctx.fill(); ctx.stroke();
+    ctx.fillStyle=def.color;
+    ctx.font='bold 13px "Segoe UI",sans-serif';
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText(def.icon,0,1);
+    ctx.restore();
+  }
+}
+
+function drawZombie(z){
+  const bob=Math.sin(z.phase)*2.5;
+  ctx.save();
+  ctx.translate(z.x,z.y+bob);
+
+  // тінь
+  ctx.fillStyle='rgba(0,0,0,0.4)';
+  ctx.beginPath(); ctx.ellipse(0,z.r*0.95,z.r*0.9,z.r*0.32,0,0,TAU); ctx.fill();
+
+  // руки
+  ctx.strokeStyle=z.color; ctx.lineCap='round';
+  ctx.lineWidth=Math.max(3,z.r*0.25);
+  const ax=Math.cos(z.armAng)*(z.r+6), ay=Math.sin(z.armAng)*(z.r+6);
+  ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(ax,ay); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(-ax,-ay*0.6); ctx.stroke();
+
+  // тіло
+  const g=ctx.createRadialGradient(-z.r*0.3,-z.r*0.4,z.r*0.2,0,0,z.r);
+  g.addColorStop(0,'#d8e6be');
+  g.addColorStop(0.35,z.color);
+  g.addColorStop(1,z.ring);
+  ctx.fillStyle=g;
+  ctx.beginPath(); ctx.arc(0,0,z.r,0,TAU); ctx.fill();
+  if(z.type==='brute'){
+    ctx.lineWidth=3; ctx.strokeStyle=z.ring;
+    ctx.beginPath(); ctx.arc(0,0,z.r-4,0,TAU); ctx.stroke();
+  }
+
+  // очі (дивляться на гравця/ціль)
+  const ea=z.armAng;
+  const ex=Math.cos(ea)*z.r*0.3, ey=Math.sin(ea)*z.r*0.3;
+  ctx.fillStyle=z.type==='brute'?'#ffd166':'#fff6d6';
+  ctx.beginPath(); ctx.arc(ex-3,ey-2,2.6,0,TAU); ctx.arc(ex+3,ey-2,2.6,0,TAU); ctx.fill();
+  ctx.fillStyle='#000';
+  ctx.beginPath();
+  ctx.arc(ex-3+Math.cos(ea)*1.2, ey-2+Math.sin(ea)*1.2,1.2,0,TAU);
+  ctx.arc(ex+3+Math.cos(ea)*1.2, ey-2+Math.sin(ea)*1.2,1.2,0,TAU);
+  ctx.fill();
+
+  // спалах урону
+  if(z.hitCd>0){
+    ctx.globalAlpha=clamp(z.hitCd/0.09,0,0.7);
+    ctx.fillStyle='#fff';
+    ctx.beginPath(); ctx.arc(0,0,z.r+1,0,TAU); ctx.fill();
+    ctx.globalAlpha=1;
+  }
+  ctx.restore();
+}
+
+function drawPlayer(){
+  const p=player;
+  const w=WEAPONS[p.wi];
+  ctx.save();
+  ctx.translate(p.x,p.y);
+
+  // тінь
+  ctx.fillStyle='rgba(0,0,0,0.4)';
+  ctx.beginPath(); ctx.ellipse(0,p.r*0.95,p.r*0.9,p.r*0.3,0,0,TAU); ctx.fill();
+
+  // зброя (під кутом)
+  ctx.save();
+  ctx.rotate(p.aim);
+  const barrel=w.len;
+  ctx.fillStyle='#131a14';
+  ctx.strokeStyle=w.color; ctx.lineWidth=1.5;
+  roundRect(ctx,-4,-w.thick/2,barrel+8,w.thick,3); ctx.fill(); ctx.stroke();
+  if(w.pellets>3){ // дробовик
+    ctx.fillStyle='#2c3a30';
+    roundRect(ctx,-2,-5,10,10,2); ctx.fill();
+  }
+  if(w.short==='MG'){ // мініган: стволи
+    ctx.fillStyle='#202a22';
+    ctx.fillRect(2,-w.thick/2-3,barrel-4,3);
+    ctx.fillRect(2,w.thick/2,barrel-4,3);
+  }
+  ctx.restore();
+
+  // корпус
+  const g=ctx.createRadialGradient(-5,-6,3,0,0,p.r+2);
+  g.addColorStop(0,'#eef4e6');
+  g.addColorStop(0.55,'#5f8a5e');
+  g.addColorStop(1,'#2d4a2e');
+  ctx.fillStyle=g;
+  ctx.beginPath(); ctx.arc(0,0,p.r,0,TAU); ctx.fill();
+  ctx.lineWidth=2; ctx.strokeStyle='#1d2e1e'; ctx.stroke();
+
+  // "візор" (напрямок)
+  const vx=Math.cos(p.aim)*p.r*0.55, vy=Math.sin(p.aim)*p.r*0.55;
+  ctx.strokeStyle='#0b120c'; ctx.lineWidth=4; ctx.lineCap='round';
+  ctx.beginPath(); ctx.moveTo(vx-vy*0.6,vy+vx*0.6); ctx.lineTo(vx+vy*0.6,vy-vx*0.6); ctx.stroke();
+  ctx.fillStyle='#a3ff12';
+  ctx.beginPath(); ctx.arc(vx,vy,2.4,0,TAU); ctx.fill();
+
+  // щит
+  if(p.pu.shield>0){
+    ctx.strokeStyle=`rgba(96,165,250,${0.6+0.3*Math.sin(performance.now()/90)})`;
+    ctx.lineWidth=3;
+    ctx.beginPath(); ctx.arc(0,0,p.r+8,0,TAU); ctx.stroke();
+    ctx.fillStyle='rgba(96,165,250,0.12)';
+    ctx.beginPath(); ctx.arc(0,0,p.r+8,0,TAU); ctx.fill();
+  }
+
+  // спалах урону
+  if(p.hurtT>0){
+    ctx.globalAlpha=clamp(p.hurtT/0.35,0,0.6);
+    ctx.fillStyle='#e11d48';
+    ctx.beginPath(); ctx.arc(0,0,p.r+3,0,TAU); ctx.fill();
+    ctx.globalAlpha=1;
+  }
+
+  // дульний спалах
+  if(p.flashT>0){
+    const tx=Math.cos(p.aim)*(w.len+10), ty=Math.sin(p.aim)*(w.len+10);
+    const fg=ctx.createRadialGradient(tx,ty,1,tx,ty,18);
+    fg.addColorStop(0,'rgba(255,255,220,0.95)');
+    fg.addColorStop(0.4,'rgba(255,200,80,0.6)');
+    fg.addColorStop(1,'transparent');
+    ctx.fillStyle=fg;
+    ctx.beginPath(); ctx.arc(tx,ty,18,0,TAU); ctx.fill();
+  }
+  ctx.restore();
+}
+
+function drawBullet(b){
+  ctx.save();
+  ctx.strokeStyle=b.color; ctx.lineWidth=b.size;
+  ctx.lineCap='round';
+  const len=10;
+  const vl=Math.hypot(b.vx,b.vy)||1;
+  ctx.beginPath();
+  ctx.moveTo(b.x,b.y);
+  ctx.lineTo(b.x-b.vx/vl*len, b.y-b.vy/vl*len);
+  ctx.stroke();
+  ctx.fillStyle='#fff';
+  ctx.beginPath(); ctx.arc(b.x,b.y,b.size*0.7,0,TAU); ctx.fill();
+  ctx.restore();
+}
+
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+}
+
+/* ---------- головний цикл ---------- */
+let last=performance.now();
+function frame(t){
+  const dt=Math.min(0.033,(t-last)/1000); last=t;
+
+  if(state===STATE.PLAY){
+    update(dt);
+  } else if(state===STATE.MENU){
+    // "режим приваблення": зомбі блукають за меню
+    menuSpawnT-=dt;
+    if(menuSpawnT<=0){ spawnZombie('walker'); menuSpawnT=1.4; }
+    updateZombies(dt);
+    for(let i=particles.length-1;i>=0;i--){
+      const pt=particles[i]; pt.life-=dt; pt.x+=pt.vx*dt; pt.y+=pt.vy*dt;
+      pt.vx*=Math.pow(0.2,dt); pt.vy*=Math.pow(0.2,dt);
+      if(pt.life<=0) particles.splice(i,1);
+    }
+  }
+
+  render();
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
